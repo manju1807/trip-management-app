@@ -16,7 +16,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </div>
         <section className="w-full h-full flex flex-col">
           <Navbar />
-          {children}
+          <div className="m-2">{children}</div>
         </section>
       </div>
     </main>
