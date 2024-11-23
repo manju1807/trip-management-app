@@ -3,18 +3,22 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { Providers } from '@/app/providers/tanstack-provider';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
+// Inter Variable Font configuration
+const inter = localFont({
+  src: [
+    {
+      path: './fonts/Inter/Inter-VariableFont_opsz,wght.ttf',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-inter',
+  display: 'swap',
   weight: '100 900',
-  fallback: ['sans-serif'],
-});
-
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-  fallback: ['monospace'],
+  fallback: ['system-ui', 'sans-serif'],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
+        className={`${inter.className} antialiased min-h-screen bg-background`}
       >
         <Providers>{children}</Providers>
       </body>

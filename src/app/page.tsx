@@ -1,9 +1,5 @@
-import { ThemeToggle } from '@/components/features/theme-toggle';
+import MainLayout from '@/components/layouts/main-layout';
 
 export default function Home() {
-  return (
-    <main>
-      <ThemeToggle />
-    </main>
-  );
+  return <MainLayout />;
 }
