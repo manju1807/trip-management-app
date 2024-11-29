@@ -12,7 +12,6 @@ export interface Driver {
   license_number?: string;
   license_expiry?: DateTime;
   created_at: DateTime;
-  created_by: number;
 }
 
 export interface GpsData {
@@ -45,7 +44,6 @@ export interface Vehicle {
   owner_contact?: string;
   speed_limit?: number;
   created_at: DateTime;
-  created_by: number;
 }
 
 export interface Route {
@@ -58,7 +56,6 @@ export interface Route {
   idle_time?: number;
   speed_limit?: number;
   created_at: DateTime;
-  created_by: number;
 }
 
 export interface Trip {
@@ -76,9 +73,7 @@ export interface Trip {
   current_idle_time?: number;
   current_speed?: number;
   is_speeding?: boolean;
-  zone: number;
   created_at: DateTime;
-  created_by: number;
 }
 
 export interface IdleReport {
@@ -122,19 +117,17 @@ export interface VehicleMaintenance {
   bill_amount?: number;
   maintenance_time?: DateTime | null;
 }
-
-export interface Zone {
-  id: number;
-  zone_name: string;
-  created_at: DateTime;
+export interface RelatedTripData {
+  trip: Trip;
+  speedReports: SpeedReport[];
+  idleReports: IdleReport[];
+  fuelReports: FuelInfo[];
+  maintenanceReports: VehicleMaintenance[];
 }
 
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  role?: string;
-  zone?: number | null;
-  created_at: DateTime;
+export interface RelatedDriverData {
+  driver: Driver;
+  trips: Trip[];
+  vehicles?: Vehicle[];
+  gpsData: GpsData[];
 }

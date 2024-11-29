@@ -26,8 +26,8 @@ export const MENU_STRUCTURE: MenuSection[] = [
     group: 'MANAGEMENT',
     items: [
       { icon: Flag, label: 'Trips', href: '/trips' },
-      { icon: Truck, label: 'Vehicles', href: '/vehicles' },
-      { icon: User2, label: 'Drivers', href: '/drivers' },
+      { icon: Truck, label: 'Vehicles', href: '/vehicle-management' },
+      { icon: User2, label: 'Drivers', href: '/driver-management' },
     ],
   },
   {

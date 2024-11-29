@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { MENU_STRUCTURE } from '@/constants/sidebar-data';
+import { MENU_STRUCTURE } from '@/constants/sidebar/sidebar';
 import CircularButton from '@/custom/svgs/circular-button';
 import LogoSVG from '@/custom/svgs/logo-svg';
 import type {
