@@ -1,20 +1,35 @@
-import type React from 'react';
-import type { ReactNode } from 'react';
+// MainLayout.tsx
+'use client';
+import { type ReactNode, useState } from 'react';
 import Navbar from './navbar/navbar';
 import DesktopSidebar from './sidebar/desktop-sidebar';
 
-type MainLayoutProps = {
+interface MainLayoutProps {
   children: ReactNode;
-};
+}
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout = ({ children }: MainLayoutProps) => {
+  //states
+  const [pinned, setPinned] = useState(true);
+
+  //callback functions for child-components
+  const handlePinned = () => setPinned(!pinned);
+
   return (
-    <main className="h-full">
-      <div className="flex flex-row w-full h-full gap-2">
-        <div className="bg-blue-200 w-1/5 h-full hidden md:flex">
-          <DesktopSidebar />
+    <main className="h-full bg-background">
+      <div className="relative flex h-full">
+        <div
+          className={`
+            h-full shadow-xl hidden md:flex ${pinned ? 'relative' : 'absolute'}
+          `}
+        >
+          <DesktopSidebar isPinned={pinned} onPinChange={handlePinned} />
         </div>
-        <section className="w-full h-full flex flex-col">
+        <section
+          className={`
+          flex flex-col flex-1 transition-all duration-300 max-w-[86rem] mx-auto py-2
+        `}
+        >
           <Navbar />
           <div className="m-2">{children}</div>
         </section>

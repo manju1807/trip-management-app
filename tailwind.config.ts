@@ -16,6 +16,10 @@ export default {
       },
     },
     extend: {
+      boxShadow: {
+        'sidebar-menu-shadow': '0px 2px 6px rgba(0,0,0,0.1)',
+        'custom-nav': 'rgba(47, 43, 61, 0.14) 0px 2px 6px 0px',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between p-4 bg-background shadow-md m-2 rounded-md">
+      <nav className="flex items-center justify-between p-4 bg-card shadow-custom-nav m-2 rounded-md">
         {/* Left side - Search */}
         <div className="flex-1 max-w-xl">
           <div className="flex flex-row gap-1">
