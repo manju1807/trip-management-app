@@ -1,41 +1,57 @@
 import type { MenuSection } from '@/types/sidebar';
 import {
   Activity,
-  Bell,
-  Building2,
-  Flag,
+  AlertCircle,
   Fuel,
   Home,
-  Map as MapIcon,
+  MapPin,
+  Navigation,
+  Route,
   Truck,
-  User2,
+  Users,
 } from 'lucide-react';
 
 export const MENU_STRUCTURE: MenuSection[] = [
   {
-    items: [
-      { icon: Home, label: 'Home', href: '/' },
-      { icon: Building2, label: 'Distillery', href: '/distillery' },
-    ],
+    items: [{ icon: Home, label: 'Home', href: '/dashboard' }],
   },
   {
-    group: 'SUMMARY',
-    items: [{ icon: MapIcon, label: 'Maps', href: '/maps' }],
+    group: 'TRACKING',
+    items: [
+      { icon: MapPin, label: 'Live Maps', href: '/dashboard/maps' },
+      {
+        icon: Navigation,
+        label: 'Active Routes',
+        href: '/dashboard/routes-management',
+      },
+    ],
   },
   {
     group: 'MANAGEMENT',
     items: [
-      { icon: Flag, label: 'Trips', href: '/trips' },
-      { icon: Truck, label: 'Vehicles', href: '/vehicle-management' },
-      { icon: User2, label: 'Drivers', href: '/driver-management' },
+      { icon: Route, label: 'Trips', href: '/dashboard/trips-management' },
+      { icon: Truck, label: 'Vehicles', href: '/dashboard/vehicle-management' },
+      { icon: Users, label: 'Drivers', href: '/dashboard/driver-management' },
     ],
   },
   {
     group: 'REPORTS',
     items: [
-      { icon: Activity, label: 'Trip Activity', href: '/trip-activity' },
-      { icon: Bell, label: 'Trip Alerts', href: '/trip-alerts' },
-      { icon: Fuel, label: 'Fuel & Maintenance', href: '/fuel-maintenance' },
+      {
+        icon: Activity,
+        label: 'Trip Activity',
+        href: '/dashboard/reports/trip-activity',
+      },
+      {
+        icon: AlertCircle,
+        label: 'Trip Alerts',
+        href: '/dashboard/reports/alerts',
+      },
+      {
+        icon: Fuel,
+        label: 'Fuel & Maintenance',
+        href: '/dashboard/reports/maintenance',
+      },
     ],
   },
 ];

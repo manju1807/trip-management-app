@@ -10,7 +10,7 @@ import { LogOut, Menu, Search } from 'lucide-react';
 import {
   ClipboardList,
   Home,
-  Map as MapIcon, // Renamed to MapIcon to avoid shadowing global Map
+  Map as MapIcon,
   Navigation,
   Route,
   Truck,
@@ -52,7 +52,7 @@ const Navbar = () => {
                   <Menu className="size-5 text-muted-foreground" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-72">
+              <SheetContent side="left" className="w-72 p-0">
                 <MobileSidebar />
               </SheetContent>
             </Sheet>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 <div className="space-y-2 text-muted-foreground">
                   {quickSettings.map(({ id, Icon, label }) => (
                     <Button
-                      key={id} // Use id as the key instead of index
+                      key={id}
                       variant="ghost"
                       className="w-full justify-start gap-3 pl-0 hover:bg-background hover:text-accent-foreground"
                     >
@@ -129,7 +129,7 @@ const Navbar = () => {
                 <div className="space-y-2 text-muted-foreground">
                   {managementOptions.map(({ id, Icon, label }) => (
                     <Button
-                      key={id} // Use id as the key instead of index
+                      key={id}
                       variant="ghost"
                       className="w-full justify-start gap-3 pl-0 hover:bg-background hover:text-accent-foreground"
                     >

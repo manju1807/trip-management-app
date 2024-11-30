@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { SheetClose } from '@/components/ui/sheet';
 import { MENU_STRUCTURE } from '@/constants/sidebar/sidebar';
 import LogoSVG from '@/custom/svgs/logo-svg';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
-
 interface MenuItemProps {
   icon: React.ReactNode;
   label: string;
@@ -57,7 +57,9 @@ const MenuItem: React.FC<MenuItemProps> = ({
 };
 
 const MenuGroup: React.FC<{ title: string }> = ({ title }) => (
-  <div className="px-4 py-2">
+  <div className="px-4 py-1">
+    {' '}
+    {/* Reduced padding for better spacing */}
     <h3 className="text-xs uppercase font-normal text-muted-foreground my-2">
       {title}
     </h3>
@@ -69,20 +71,25 @@ const MobileSidebar = () => {
 
   return (
     <div className="flex flex-col h-full bg-card">
-      <div className="flex items-center py-6 px-4 w-full border-b">
-        <div className="flex flex-row items-center gap-3">
+      {/* Header Section */}
+      <div className="flex items-center justify-between py-4 px-4 w-full border-b">
+        <div className="flex items-center gap-3">
           <LogoSVG fill="hsl(245, 82%, 67%)" className="size-8" />
           <span className="font-semibold">Tripsy</span>
         </div>
+        <SheetClose />
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-6 px-4">
+      {/* Navigation Menu */}
+      <nav className="flex-1 overflow-y-auto py-4 px-4">
         {MENU_STRUCTURE.map((section, sectionIndex) => (
           <React.Fragment key={section.group || `section-${sectionIndex}`}>
             {section.group ? (
               <MenuGroup title={section.group} />
             ) : (
-              <Separator orientation="horizontal" className="my-2" />
+              sectionIndex > 0 && (
+                <Separator orientation="horizontal" className="my-2" />
+              )
             )}
             {section.items.map((item) => (
               <MenuItem

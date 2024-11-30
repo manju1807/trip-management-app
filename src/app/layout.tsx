@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Providers } from '@/app/providers/tanstack-provider';
-import MainLayout from '@/components/layouts/main-layout';
 
 // Inter Variable Font configuration
 const inter = localFont({
@@ -34,10 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${inter.className} antialiased min-h-screen`}>
-        <Providers>
-          <MainLayout>{children}</MainLayout>
-        </Providers>
+      <body
+        className={`${inter.className} antialiased min-h-screen w-full h-full`}
+      >
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
