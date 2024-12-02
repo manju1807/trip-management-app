@@ -54,10 +54,10 @@ export const getDriverWithCurrentTrip = (driverId: number) => {
     ...driver,
     currentTrip: currentTrip
       ? {
-          ...currentTrip,
-          vehicle: Vehicles.find((v: Vehicle) => v.id === currentTrip.vehicle),
-          route: Routes.find((r: Route) => r.id === currentTrip.route),
-        }
+        ...currentTrip,
+        vehicle: Vehicles.find((v: Vehicle) => v.id === currentTrip.vehicle),
+        route: Routes.find((r: Route) => r.id === currentTrip.route),
+      }
       : null,
     gpsData: GpsDataMock.find((g: GpsData) => g.driver === driverId),
   };
@@ -76,10 +76,10 @@ export const getVehicleWithCurrentTrip = (vehicleId: number) => {
     ...vehicle,
     currentTrip: currentTrip
       ? {
-          ...currentTrip,
-          driver: Drivers.find((d: Driver) => d.id === currentTrip.driver),
-          route: Routes.find((r: Route) => r.id === currentTrip.route),
-        }
+        ...currentTrip,
+        driver: Drivers.find((d: Driver) => d.id === currentTrip.driver),
+        route: Routes.find((r: Route) => r.id === currentTrip.route),
+      }
       : null,
     maintenance: Maintenance.filter(
       (m: VehicleMaintenance) => m.trip === currentTrip?.id
@@ -181,7 +181,7 @@ export const getTripAnalytics = (startDate: Date, endDate: Date) => {
           acc +
           (new Date(i.end_idle_time).getTime() -
             new Date(i.start_idle_time).getTime()) /
-            (60 * 1000)
+          (60 * 1000)
         );
       }, 0),
     },

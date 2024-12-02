@@ -13,7 +13,7 @@ import {
 
 export const MENU_STRUCTURE: MenuSection[] = [
   {
-    items: [{ icon: Home, label: 'Home', href: '/dashboard' }],
+    items: [{ icon: Home, label: 'Home', href: '/' }],
   },
   {
     group: 'TRACKING',

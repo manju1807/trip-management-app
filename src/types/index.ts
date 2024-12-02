@@ -17,9 +17,9 @@ export interface Driver {
 export interface GpsData {
   id: number;
   driver: number;
-  latitude?: number;
-  longitude?: number;
-  speed?: number;
+  latitude?: number | null;
+  longitude?: number | null;
+  speed?: number | null;
   timestamp?: DateTime;
   os_version?: string;
   battery_level?: number;

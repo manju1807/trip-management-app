@@ -10,7 +10,7 @@ export default function NotFound() {
         <p className="text-foreground mb-6">
           The page you are looking for doesn't exist or has been moved.
         </p>
-        <Link href="/dashboard">
+        <Link href="/">
           <p className="inline-block px-6 py-3 text-gray-50 bg-gradient-to-r from-[hsl(var(--gradient-purple-start))] to-[hsl(var(--gradient-purple-end))] rounded-md shadow-sidebar-menu-shadow transition">
             Return to Dashboard
           </p>

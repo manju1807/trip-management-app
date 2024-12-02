@@ -31,7 +31,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         `}
         >
           <Navbar />
-          <div className="m-2">{children}</div>
+          {children}
         </section>
       </div>
     </main>

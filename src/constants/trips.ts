@@ -3,15 +3,15 @@ import type { Trip } from '@/types';
 export const TripsMock: Trip[] = [
   {
     id: 1,
-    driver: 5, // Abdul Rahman Khan from Bangalore
+    driver: 1, // Rajesh Kumar Sharma
     vehicle: 1, // Toyota Innova
-    route: 1, // Bangalore Urban Circuit
+    route: 4, // IT Express Route
     scheduled_start_time: '2024-11-30T08:00:00Z',
     start_time: '2024-11-30T08:05:00Z',
-    end_time: '2024-11-30T09:30:00Z',
+    end_time: '2024-11-30T09:30:00Z', // Completed on time
     distance_travelled: 45.2,
-    current_latitude: 12.8458,
-    current_longitude: 77.5947,
+    current_latitude: 17.4147,
+    current_longitude: 78.3816,
     total_idle_time: 25,
     current_idle_time: 0,
     current_speed: 0,
@@ -20,32 +20,32 @@ export const TripsMock: Trip[] = [
   },
   {
     id: 2,
-    driver: 3, // Suresh Venkatesh from Tamil Nadu
-    vehicle: 2, // Hyundai Alcazar
-    route: 2, // Chennai Metro Connect
+    driver: 2, // Priya Patel
+    vehicle: 5, // Hyundai Alcazar
+    route: 8, // CBD Connector
     scheduled_start_time: '2024-11-30T08:30:00Z',
-    start_time: '2024-11-30T08:35:00Z',
+    start_time: '2024-11-30T08:48:00Z', // Started late
     end_time: null,
     distance_travelled: 28.7,
-    current_latitude: 12.7409,
-    current_longitude: 80.0112,
+    current_latitude: 17.4319,
+    current_longitude: 78.4073,
     total_idle_time: 35,
     current_idle_time: 5,
-    current_speed: 45.5,
+    current_speed: 35.5,
     is_speeding: false,
     created_at: '2024-11-30T08:15:00Z',
   },
   {
     id: 3,
-    driver: 7, // Ravi Krishnan from Kerala
-    vehicle: 3, // Ashok Leyland Bus
-    route: 3, // Kochi Coastal Route
+    driver: 3, // Mohammed Ishaq
+    vehicle: 2, // Tata Heavy Truck
+    route: 3, // Industrial Corridor
     scheduled_start_time: '2024-11-30T09:00:00Z',
     start_time: '2024-11-30T09:00:00Z',
-    end_time: '2024-11-30T10:15:00Z',
-    distance_travelled: 15.3,
-    current_latitude: 10.019,
-    current_longitude: 76.2432,
+    end_time: '2024-11-30T10:15:00Z', // Completed on time
+    distance_travelled: 52.3,
+    current_latitude: 17.5326,
+    current_longitude: 78.2646,
     total_idle_time: 20,
     current_idle_time: 0,
     current_speed: 0,
@@ -54,274 +54,150 @@ export const TripsMock: Trip[] = [
   },
   {
     id: 4,
-    driver: 8, // Sunita Reddy from Telangana
-    vehicle: 8, // Kia Carens
-    route: 4, // Hyderabad Tech Corridor
+    driver: 4, // Deepa Reddy
+    vehicle: 7, // Kia Carens
+    route: 5, // Old City Heritage Route
     scheduled_start_time: '2024-11-30T09:30:00Z',
-    start_time: '2024-11-30T09:40:00Z',
+    start_time: null, // Not started yet
     end_time: null,
-    distance_travelled: 18.9,
-    current_latitude: 17.4147,
-    current_longitude: 78.3816,
-    total_idle_time: 15,
-    current_idle_time: 15,
+    distance_travelled: 0,
+    current_latitude: 17.3833,
+    current_longitude: 78.4011,
+    total_idle_time: 0,
+    current_idle_time: 0,
     current_speed: 0,
     is_speeding: false,
     created_at: '2024-11-30T09:15:00Z',
   },
   {
     id: 5,
-    driver: 18, // Anita Hegde from Karnataka
-    vehicle: 14, // Skoda Kushaq
-    route: 5, // Mysore Heritage Circuit
+    driver: 5, // Karthik Sundaram
+    vehicle: 3, // Ashok Leyland Bus
+    route: 9, // Airport Express
     scheduled_start_time: '2024-11-30T10:00:00Z',
     start_time: '2024-11-30T10:05:00Z',
     end_time: null,
-    distance_travelled: 12.4,
-    current_latitude: 12.2725,
-    current_longitude: 76.6736,
+    distance_travelled: 32.4,
+    current_latitude: 17.2403,
+    current_longitude: 78.4294,
     total_idle_time: 25,
     current_idle_time: 0,
-    current_speed: 35.2,
+    current_speed: 65.2,
     is_speeding: false,
     created_at: '2024-11-30T09:45:00Z',
   },
   {
     id: 6,
-    driver: 12, // Lakshmi Raghavan from Tamil Nadu
-    vehicle: 6, // Mahindra XUV300
-    route: 6, // Coimbatore Industrial Belt
+    driver: 6, // Arun Prakash
+    vehicle: 4, // Bharat Benz Tanker
+    route: 7, // Warehouse Link
     scheduled_start_time: '2024-11-30T10:30:00Z',
-    start_time: '2024-11-30T10:35:00Z',
+    start_time: null, // Not started yet
     end_time: null,
-    distance_travelled: 22.8,
-    current_latitude: 11.0168,
-    current_longitude: 76.9558,
-    total_idle_time: 40,
-    current_idle_time: 10,
-    current_speed: 48.5,
+    distance_travelled: 0,
+    current_latitude: 17.6387,
+    current_longitude: 78.5622,
+    total_idle_time: 0,
+    current_idle_time: 0,
+    current_speed: 0,
     is_speeding: false,
     created_at: '2024-11-30T10:15:00Z',
   },
   {
     id: 7,
-    driver: 13, // Arjun Menon from Kerala
-    vehicle: 12, // Toyota Glanza
-    route: 7, // Trivandrum Coastal Highway
+    driver: 7, // Anjali Deshmukh
+    vehicle: 8, // Force Mini Bus
+    route: 10, // Educational Zone Route
     scheduled_start_time: '2024-11-30T11:00:00Z',
-    start_time: '2024-11-30T11:10:00Z',
+    start_time: '2024-11-30T11:25:00Z', // Started late
     end_time: null,
-    distance_travelled: 16.7,
-    current_latitude: 8.4004,
-    current_longitude: 76.9787,
+    distance_travelled: 18.7,
+    current_latitude: 17.5453,
+    current_longitude: 78.5738,
     total_idle_time: 30,
     current_idle_time: 5,
     current_speed: 42.8,
-    is_speeding: false,
+    is_speeding: true, // Speeding in school zone
     created_at: '2024-11-30T10:45:00Z',
   },
   {
     id: 8,
-    driver: 4, // Meera Singh
-    vehicle: 4, // Tata Prima Truck
-    route: 8, // Vizag Port Route
+    driver: 8, // Ravi Krishnan
+    vehicle: 6, // Eicher Medium Truck
+    route: 6, // Outer Ring Road Express
     scheduled_start_time: '2024-11-30T11:30:00Z',
     start_time: '2024-11-30T11:35:00Z',
     end_time: null,
-    distance_travelled: 8.9,
-    current_latitude: 17.6868,
-    current_longitude: 83.2185,
-    total_idle_time: 45,
-    current_idle_time: 15,
-    current_speed: 32.5,
+    distance_travelled: 48.9,
+    current_latitude: 17.6252,
+    current_longitude: 78.4801,
+    total_idle_time: 15,
+    current_idle_time: 0,
+    current_speed: 82.5,
     is_speeding: false,
     created_at: '2024-11-30T11:15:00Z',
   },
   {
     id: 9,
-    driver: 5, // Abdul Rahman Khan
-    vehicle: 1, // Toyota Innova
-    route: 9, // Mangalore Port Connect
+    driver: 9, // Meera Singh
+    vehicle: 9, // Mahindra XUV700
+    route: 1, // Hyderabad Ring Road Circuit
     scheduled_start_time: '2024-11-30T12:00:00Z',
     start_time: '2024-11-30T12:05:00Z',
     end_time: null,
-    distance_travelled: 14.2,
-    current_latitude: 12.9175,
-    current_longitude: 74.8019,
+    distance_travelled: 34.2,
+    current_latitude: 17.4400,
+    current_longitude: 78.3489,
     total_idle_time: 20,
     current_idle_time: 0,
     current_speed: 55.6,
-    is_speeding: true,
+    is_speeding: false,
     created_at: '2024-11-30T11:45:00Z',
   },
   {
     id: 10,
-    driver: 3, // Suresh Venkatesh
-    vehicle: 15, // Volvo Bus
-    route: 10, // Madurai Temple Circuit
+    driver: 10, // Suresh Kumar
+    vehicle: 10, // Volvo Heavy Truck
+    route: 2, // Secunderabad Depot Connect
     scheduled_start_time: '2024-11-30T12:30:00Z',
-    start_time: '2024-11-30T12:35:00Z',
+    start_time: null, // Not started yet
     end_time: null,
-    distance_travelled: 5.6,
-    current_latitude: 9.9252,
-    current_longitude: 78.1198,
-    total_idle_time: 30,
-    current_idle_time: 30,
+    distance_travelled: 0,
+    current_latitude: 17.4344,
+    current_longitude: 78.5013,
+    total_idle_time: 0,
+    current_idle_time: 0,
     current_speed: 0,
     is_speeding: false,
     created_at: '2024-11-30T12:15:00Z',
-  },
-  {
-    id: 11,
-    driver: 17, // Mohammed Ismail
-    vehicle: 13, // Eicher Truck
-    route: 11, // Warangal Heritage Route
-    scheduled_start_time: '2024-11-30T13:00:00Z',
-    start_time: '2024-11-30T13:05:00Z',
-    end_time: null,
-    distance_travelled: 19.8,
-    current_latitude: 18.0013,
-    current_longitude: 79.5881,
-    total_idle_time: 25,
-    current_idle_time: 0,
-    current_speed: 45.2,
-    is_speeding: false,
-    created_at: '2024-11-30T12:45:00Z',
-  },
-  {
-    id: 12,
-    driver: 12, // Lakshmi Raghavan
-    vehicle: 2, // Hyundai Alcazar
-    route: 12, // Salem Industrial Connect
-    scheduled_start_time: '2024-11-30T13:30:00Z',
-    start_time: '2024-11-30T13:35:00Z',
-    end_time: null,
-    distance_travelled: 25.4,
-    current_latitude: 11.6643,
-    current_longitude: 78.146,
-    total_idle_time: 35,
-    current_idle_time: 5,
-    current_speed: 52.8,
-    is_speeding: true,
-    created_at: '2024-11-30T13:15:00Z',
-  },
-  {
-    id: 13,
-    driver: 7, // Ravi Krishnan
-    vehicle: 7, // Bharat Benz Tanker
-    route: 13, // Thrissur Festival Route
-    scheduled_start_time: '2024-11-30T14:00:00Z',
-    start_time: '2024-11-30T14:05:00Z',
-    end_time: null,
-    distance_travelled: 11.2,
-    current_latitude: 10.5276,
-    current_longitude: 76.2144,
-    total_idle_time: 40,
-    current_idle_time: 10,
-    current_speed: 38.5,
-    is_speeding: false,
-    created_at: '2024-11-30T13:45:00Z',
-  },
-  {
-    id: 14,
-    driver: 8, // Sunita Reddy
-    vehicle: 9, // Force Motors Mini Bus
-    route: 14, // Tirupati Temple Route
-    scheduled_start_time: '2024-11-30T14:30:00Z',
-    start_time: '2024-11-30T14:35:00Z',
-    end_time: null,
-    distance_travelled: 8.7,
-    current_latitude: 13.6833,
-    current_longitude: 79.3474,
-    total_idle_time: 50,
-    current_idle_time: 15,
-    current_speed: 25.4,
-    is_speeding: false,
-    created_at: '2024-11-30T14:15:00Z',
-  },
-  {
-    id: 15,
-    driver: 18, // Anita Hegde
-    vehicle: 14, // Skoda Kushaq
-    route: 15, // Hubli Commerce Route
-    scheduled_start_time: '2024-11-30T15:00:00Z',
-    start_time: '2024-11-30T15:05:00Z',
-    end_time: null,
-    distance_travelled: 15.8,
-    current_latitude: 15.3647,
-    current_longitude: 75.124,
-    total_idle_time: 25,
-    current_idle_time: 0,
-    current_speed: 58.2,
-    is_speeding: true,
-    created_at: '2024-11-30T14:45:00Z',
-  },
-  {
-    id: 16,
-    driver: 4, // Meera Singh
-    vehicle: 4, // Tata Prima Truck
-    route: 16, // Vijayawada City Circuit
-    scheduled_start_time: '2024-11-30T15:30:00Z',
-    start_time: '2024-11-30T15:35:00Z',
-    end_time: null,
-    distance_travelled: 12.9,
-    current_latitude: 16.5107,
-    current_longitude: 80.6287,
-    total_idle_time: 30,
-    current_idle_time: 5,
-    current_speed: 42.5,
-    is_speeding: false,
-    created_at: '2024-11-30T15:15:00Z',
-  },
-  {
-    id: 17,
-    driver: 3, // Suresh Venkatesh
-    vehicle: 15, // Volvo Bus
-    route: 17, // Ooty Hill Route
-    scheduled_start_time: '2024-11-30T16:00:00Z',
-    start_time: '2024-11-30T16:05:00Z',
-    end_time: null,
-    distance_travelled: 6.8,
-    current_latitude: 11.4087,
-    current_longitude: 76.7367,
-    total_idle_time: 45,
-    current_idle_time: 10,
-    current_speed: 22.5,
-    is_speeding: false,
-    created_at: '2024-11-30T15:45:00Z',
-  },
-  {
-    id: 18,
-    driver: 13, // Arjun Menon
-    vehicle: 12, // Toyota Glanza
-    route: 18, // Calicut Beach Route
-    scheduled_start_time: '2024-11-30T16:30:00Z',
-    start_time: '2024-11-30T16:35:00Z',
-    end_time: null,
-    distance_travelled: 9.4,
-    current_latitude: 11.2588,
-    current_longitude: 75.7804,
-    total_idle_time: 20,
-    current_idle_time: 0,
-    current_speed: 45.8,
-    is_speeding: true,
-    created_at: '2024-11-30T16:15:00Z',
-  },
-  {
-    id: 19,
-    driver: 12, // Lakshmi Raghavan
-    vehicle: 6, // Mahindra XUV300
-    route: 19, // Vellore Education Route
-    scheduled_start_time: '2024-11-30T17:00:00Z',
-    start_time: '2024-11-30T17:05:00Z',
-    end_time: null,
-    distance_travelled: 16.2,
-    current_latitude: 12.9692,
-    current_longitude: 79.1559,
-    total_idle_time: 35,
-    current_idle_time: 5,
-    current_speed: 48.5,
-    is_speeding: false,
-    created_at: '2024-11-30T16:45:00Z',
-  },
+  }
 ];
+
+/* Trip Distribution:
+Total Trips: 10
+
+Status:
+- Completed: 2
+- In Progress: 5
+- Scheduled (Not Started): 3
+
+Trip Types:
+- Passenger Transport: 4
+- Goods Transport: 4
+- Special Transport (Tanker/School): 2
+
+Performance:
+- On Time: 6
+- Delayed Start: 2
+- Speed Violations: 1
+- Within Speed Limit: 9
+
+Vehicle Usage:
+- Each vehicle assigned to one trip
+- Appropriate vehicle-route matching
+
+Time Distribution:
+- Morning Trips (8-10 AM): 4
+- Mid-Day Trips (10-12 PM): 4
+- Afternoon Trips (12-2 PM): 2
+*/
