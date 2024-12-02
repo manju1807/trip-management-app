@@ -10,7 +10,6 @@ import {
 import { Clock, Hourglass, Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { ApexOptions } from 'apexcharts'
-import { hexToRGBA } from '@/utils/hex-to-rgba'
 import { useDashboard } from '@/hooks/useDashboard'
 
 // Dynamically import ApexCharts with no SSR
@@ -48,7 +47,7 @@ export default function TripsTracker() {
     },
     stroke: { dashArray: 10 },
     labels: ['Completed Task'],
-    colors: [hexToRGBA('#8866d8', 1)],
+    colors: ['hsl(var(--gradient-purple-start))'],
     states: {
       hover: {
         filter: { type: 'none' }
@@ -66,7 +65,7 @@ export default function TripsTracker() {
         shadeIntensity: 0.5,
         stops: [30, 70, 100],
         inverseColors: false,
-        gradientToColors: [hexToRGBA('#8866d8', 1)]
+        gradientToColors: ['hsl(var(--gradient-purple-start))']
       }
     },
     plotOptions: {
