@@ -1,25 +1,19 @@
 'use client';
 
-import React from 'react'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Clock, Hourglass, Loader2 } from 'lucide-react'
-import dynamic from 'next/dynamic'
-import { ApexOptions } from 'apexcharts'
-import { useDashboard } from '@/hooks/useDashboard'
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Clock, Hourglass, Loader2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ApexOptions } from 'apexcharts';
+import { useDashboard } from '@/hooks/useDashboard';
 
-const ReactApexcharts = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-})
+const ReactApexcharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function TripsTracker() {
   const stats = useDashboard();
   const completionRate = Math.round((stats.trips.completed / stats.trips.total) * 100);
 
+  // Chart options
   const options: ApexOptions = {
     chart: {
       height: 320,
@@ -29,26 +23,22 @@ export default function TripsTracker() {
         enabled: true,
         dynamicAnimation: {
           enabled: true,
-          speed: 1000
-        }
-      }
+          speed: 1000,
+        },
+      },
     },
     stroke: {
       dashArray: 10,
       lineCap: 'butt',
       width: 20,
       show: true,
-      curve: 'smooth'
+      curve: 'smooth',
     },
     labels: ['Completed Trips'],
     colors: ['hsl(var(--gradient-purple-start))'],
     states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
-      }
+      hover: { filter: { type: 'none' } },
+      active: { filter: { type: 'none' } },
     },
     fill: {
       type: 'gradient',
@@ -59,16 +49,14 @@ export default function TripsTracker() {
         shadeIntensity: 0.5,
         stops: [30, 70, 100],
         inverseColors: false,
-        gradientToColors: ['hsl(var(--gradient-purple-start))']
-      }
+        gradientToColors: ['hsl(var(--gradient-purple-start))'],
+      },
     },
     plotOptions: {
       radialBar: {
         startAngle: -140,
         endAngle: 130,
-        hollow: {
-          size: '60%',
-        },
+        hollow: { size: '60%' },
         track: {
           background: 'transparent',
           startAngle: -140,
@@ -79,71 +67,78 @@ export default function TripsTracker() {
             offsetY: -15,
             color: 'hsl(var(--muted-foreground))',
             fontSize: '16px',
-            fontWeight: '400'
+            fontWeight: '400',
           },
           value: {
             offsetY: 15,
-            fontSize: '24px',
+            fontSize: '36px', // Updated for consistency with main metric
             fontWeight: '600',
             formatter: (val) => `${val}%`,
             color: 'hsl(var(--foreground))',
-            show: true
-          }
-        }
-      }
-    }
-  }
+            show: true,
+          },
+        },
+      },
+    },
+  };
 
+  // Data for stats
   const data = [
     {
       title: 'In Progress',
       subtitle: stats.trips.inProgress,
       icon: <Loader2 className="h-5 w-5" />,
-      color: 'hsl(var(--chart-1))'
+      color: 'hsl(var(--chart-1))',
     },
     {
       title: 'Scheduled',
       subtitle: stats.trips.scheduled,
       icon: <Clock className="h-5 w-5" />,
-      color: 'hsl(var(--chart-2))'
+      color: 'hsl(var(--chart-2))',
     },
     {
       title: 'Delayed',
       subtitle: stats.trips.delayed,
       icon: <Hourglass className="h-5 w-5" />,
-      color: 'hsl(var(--chart-3))'
-    }
-  ]
+      color: 'hsl(var(--chart-3))',
+    },
+  ];
+
+  // Constants for reused styles
+  const cardHeaderClasses = 'pb-2';
+  const cardTitleClasses = 'text-base font-medium';
+  const subtitleClasses = 'text-xs font-normal text-muted-foreground mt-1';
+  const metricTitleClasses = 'text-4xl font-semibold mb-2';
+  const metricSubtitleClasses = 'mb-8 text-base text-muted-foreground';
+  const itemContainerClasses = 'flex items-center mb-6 last:mb-0';
+  const itemIconWrapperClasses = 'mr-4 flex h-12 w-12 items-center justify-center rounded-lg';
+  const itemTitleClasses = 'text-sm font-medium';
+  const itemSubtitleClasses = 'text-xs text-muted-foreground';
 
   return (
     <Card className="h-full w-full rounded-md shadow-xl">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-medium">
+      <CardHeader className={cardHeaderClasses}>
+        <CardTitle className={cardTitleClasses}>
           Trips Tracker
-          <p className="text-xs font-normal text-muted-foreground mt-1">Last 7 Days</p>
+          <p className={subtitleClasses}>Last 7 Days</p>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-12">
           <div className="sm:col-span-5">
-            <h2 className="text-4xl font-semibold mb-2">{stats.trips.total}</h2>
-            <p className="mb-8 text-base text-muted-foreground">Total Trips</p>
+            <h2 className={metricTitleClasses}>{stats.trips.total}</h2>
+            <p className={metricSubtitleClasses}>Total Trips</p>
             {data.map((item, index) => (
-              <div
-                key={index}
-                className={`flex items-center ${index !== data.length - 1 ? 'mb-6' : ''}`}
-              >
+              <div key={index} className={itemContainerClasses}>
                 <div
-                  className="mr-4 flex h-12 w-12 items-center justify-center rounded-lg"
+                  className={itemIconWrapperClasses}
                   style={{ backgroundColor: `color-mix(in srgb, ${item.color} 15%, transparent)` }}
                 >
                   <div style={{ color: item.color }}>{item.icon}</div>
                 </div>
                 <div className="flex flex-col">
-                  <h6 className="text-sm font-medium">{item.title}</h6>
-                  <span className="text-sm text-muted-foreground">
-                    {item.subtitle}
-                  </span>
+                  <h6 className={itemTitleClasses}>{item.title}</h6>
+                  <span className={itemSubtitleClasses}>{item.subtitle}</span>
                 </div>
               </div>
             ))}
@@ -159,5 +154,5 @@ export default function TripsTracker() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

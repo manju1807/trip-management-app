@@ -1,6 +1,6 @@
-import DriverAnalysisCard from "@/components/views/dashboard/driver-analytics";
-import FleetCard from "@/components/views/dashboard/fleets";
-import PerformanceCard from "@/components/views/dashboard/performance-card";
+import DriverAnalysisCard from '@/components/views/dashboard/driver-analytics';
+import FleetCard from '@/components/views/dashboard/fleets';
+import PerformanceCard from '@/components/views/dashboard/performance-card';
 import LocationCard from '@/components/views/dashboard/location-detail';
 import TripTrackerCard from '@/components/views/dashboard/trip-tracker';
 
