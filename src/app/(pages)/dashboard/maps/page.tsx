@@ -1,3 +1,9 @@
-export default function Home() {
-  return <h1>hello world</h1>;
+import DriverTrackingDashboard from "@/components/views/maps/drivers-tracking";
+
+export default function Maps() {
+  return (
+    <div className="p-4 overflow-y-auto">
+      <DriverTrackingDashboard />
+    </div>
+  )
 }

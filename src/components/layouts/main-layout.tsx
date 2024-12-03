@@ -17,7 +17,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const handlePinned = () => setPinned(!pinned);
 
   return (
-    <main className="h-full bg-background max-h-screen">
+    <main className="h-full bg-background max-h-screen overflow-hidden">
       <div className="relative flex h-full">
         <div
           className={`
