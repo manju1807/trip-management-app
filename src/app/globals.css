@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --background: 260, 20%, 97%;
+    --background: 260 20% 97%;
     --foreground: 240 10% 3.9%;
-    --card: 0, 0%, 100%;
+    --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
@@ -16,7 +16,7 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 0, 0%, 97%;
+    --accent: 0 0% 97%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -29,13 +29,14 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --gradient-purple-start: 245, 82%, 67%;  /* #7367f0 */
-    --gradient-purple-end: 246, 81%, 77%;    /* #9d94f4 */
+    --gradient-purple-start: 245 82% 67%;
+    --gradient-purple-end: 246 81% 77%;
   }
+
   .dark {
-    --background: 230, 24%, 19%;
+    --background: 230 24% 19%;
     --foreground: 0 0% 98%;
-    --card: 233, 21%, 23%;
+    --card: 233 21% 23%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -45,7 +46,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 231, 20%, 26%;
+    --accent: 231 20% 26%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -57,33 +58,54 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --gradient-purple-start: 245, 82%, 67%;  /* #7367f0 */
-    --gradient-purple-end: 245, 44%, 54%;    /* #5f57be */
+    --gradient-purple-start: 245 82% 67%;
+    --gradient-purple-end: 245 44% 54%;
   }
 }
 
 @layer base {
-	* {
-		@apply border-border;
-	}
-
-	body {
-		@apply bg-background text-foreground;
-	}
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+  h4 {
+    @apply text-h4;
+  }
+  h5 {
+    @apply text-h5;
+  }
+  h6 {
+    @apply text-h6;
+  }
 }
 
 *::before,
 *::after {
-	box-sizing: border-box;
-	scroll-behavior: smooth;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html,
 body,
 #root,
 .app {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
-
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+}

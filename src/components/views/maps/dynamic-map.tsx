@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, MutableRefObject } from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -8,6 +8,8 @@ interface DynamicMapProps {
   zoom: number;
   markerPosition: [number, number];
   popupContent: string;
+  onMapReady?: () => void;
+  mapRef: MutableRefObject<L.Map | null>;
 }
 
 const DynamicMap: React.FC<DynamicMapProps> = ({
@@ -15,11 +17,11 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
   zoom,
   markerPosition,
   popupContent,
+  onMapReady,
+  mapRef,
 }) => {
-  const mapRef = useRef<L.Map | null>(null);
-
-  // Fix for default marker icon
   useEffect(() => {
+    // Fix for default marker icon
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -27,31 +29,37 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
       shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
     });
 
-    // Cleanup function
-    return () => {
+    // Force map resize after a small delay
+    const timer = setTimeout(() => {
       if (mapRef.current) {
-        mapRef.current.off();
-        mapRef.current.remove();
+        mapRef.current.invalidateSize();
+        mapRef.current.setView(center, zoom);
+        if (onMapReady) onMapReady();
       }
+    }, 250);
+
+    return () => {
+      clearTimeout(timer);
     };
-  }, []);
+  }, [center, zoom, onMapReady, mapRef]);
+
+  const handleMapMount = (map: L.Map) => {
+    mapRef.current = map;
+  };
 
   return (
-    <div className="h-full w-full">
-      <MapContainer
-        center={center}
-        zoom={zoom}
-        style={{ height: '100%', width: '100%' }}
-        className="border rounded-md"
-        ref={mapRef}
-        key={`${center[0]}-${center[1]}-${zoom}`}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Marker position={markerPosition}>
-          <Popup>{popupContent}</Popup>
-        </Marker>
-      </MapContainer>
-    </div>
+    <MapContainer
+      center={center}
+      zoom={zoom}
+      style={{ height: '100%', width: '100%' }}
+      className="!absolute inset-0"
+      ref={handleMapMount}
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Marker position={markerPosition}>
+        <Popup>{popupContent}</Popup>
+      </Marker>
+    </MapContainer>
   );
 };
 

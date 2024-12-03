@@ -86,7 +86,7 @@ const LocationStatsCard = () => {
           <div className={iconContainerClasses}>
             <MapPin className={iconClasses} />
           </div>
-          <div className="space-y-1">
+          <div className="flex flex-col space-y-1">
             <span className={metricClasses}>{stats.routes.total}</span>
             <span className={subtitleClasses}>All Locations</span>
           </div>
