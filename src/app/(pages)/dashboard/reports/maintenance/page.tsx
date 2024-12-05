@@ -22,6 +22,9 @@ export default function FuelMaintenanceReport() {
           columns: reportColumns.fuelMaintenance,
         },
       ]}
+      onDateRangeChange={updateDateRange}
+      initialStartDate={dateRange.startDate}
+      initialEndDate={dateRange.endDate}
     />
   );
 }

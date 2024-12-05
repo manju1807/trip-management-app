@@ -34,22 +34,48 @@ interface ReportTemplateProps<T, U extends T = T> {
   title: string;
   sections: [TableSection<T>, TableSection<U>?];
   showCheckbox?: boolean;
+  onDateRangeChange?: (startDate: Date, endDate: Date) => void;
+  initialStartDate?: Date;
+  initialEndDate?: Date;
 }
 
 export default function ReportTemplate<T, U extends T = T>({
   title,
   sections,
   showCheckbox = true,
+  onDateRangeChange,
+  initialStartDate = new Date(new Date().setMonth(new Date().getMonth() - 1)),
+  initialEndDate = new Date(),
 }: ReportTemplateProps<T, U>) {
-  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
-  const [endDate, setEndDate] = React.useState<Date | null>(new Date());
-  const [activeFilter, setActiveFilter] = React.useState('Last Month');
+  const [startDate, setStartDate] = React.useState<Date | null>(
+    initialStartDate
+  );
+  const [endDate, setEndDate] = React.useState<Date | null>(initialEndDate);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 5,
   });
+
+  // Handle date changes and search
+  // Updated handleDateChange to handle undefined values
+  const handleDateChange = (type: 'start' | 'end', date: Date | undefined) => {
+    // Convert undefined to null
+    const newDate = date || null;
+
+    if (type === 'start') {
+      setStartDate(newDate);
+    } else {
+      setEndDate(newDate);
+    }
+  };
+
+  const handleSearch = () => {
+    if (startDate && endDate && onDateRangeChange) {
+      onDateRangeChange(startDate, endDate);
+    }
+  };
 
   const validSections = sections.filter(
     (section): section is TableSection<T> | TableSection<U> =>
@@ -131,7 +157,8 @@ export default function ReportTemplate<T, U extends T = T>({
                 <Calendar
                   mode="single"
                   selected={startDate || undefined}
-                  onSelect={(day) => setStartDate(day ?? null)} // Convert undefined to null
+                  onSelect={(day) => handleDateChange('start', day)}
+                  disabled={(date) => (endDate ? date > endDate : false)}
                   initialFocus
                 />
               </PopoverContent>
@@ -156,13 +183,18 @@ export default function ReportTemplate<T, U extends T = T>({
                 <Calendar
                   mode="single"
                   selected={endDate || undefined}
-                  onSelect={(day) => setEndDate(day ?? null)} // Convert undefined to null
+                  onSelect={(day) => handleDateChange('end', day)}
+                  disabled={(date) => (startDate ? date < startDate : false)}
                   initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
-          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground">
+          <Button
+            className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground shadow-md"
+            onClick={handleSearch}
+            disabled={!startDate || !endDate}
+          >
             Search
           </Button>
         </div>
@@ -171,7 +203,7 @@ export default function ReportTemplate<T, U extends T = T>({
       <CardContent className="p-6 space-y-6">
         {/* Rest of the component remains the same */}
         <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 md:items-center">
-          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground">
+          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground shadow-md">
             Export xlsx
           </Button>
           <input
@@ -179,7 +211,7 @@ export default function ReportTemplate<T, U extends T = T>({
             placeholder="Search..."
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="w-full md:w-64 px-3 py-2 border border-border rounded-md"
+            className="w-full md:w-64 px-3 py-2 border border-border rounded-md bg-card"
           />
         </div>
 

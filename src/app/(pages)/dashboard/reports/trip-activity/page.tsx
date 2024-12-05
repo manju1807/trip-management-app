@@ -16,6 +16,9 @@ export default function TripActivityReport() {
           columns: reportColumns.tripActivity,
         },
       ]}
+      onDateRangeChange={updateDateRange}
+      initialStartDate={dateRange.startDate}
+      initialEndDate={dateRange.endDate}
     />
   );
 }
