@@ -146,7 +146,7 @@ export const TripsMock: Trip[] = [
     start_time: '2024-11-30T12:05:00Z',
     end_time: null,
     distance_travelled: 34.2,
-    current_latitude: 17.4400,
+    current_latitude: 17.44,
     current_longitude: 78.3489,
     total_idle_time: 20,
     current_idle_time: 0,
@@ -170,7 +170,7 @@ export const TripsMock: Trip[] = [
     current_speed: 0,
     is_speeding: false,
     created_at: '2024-11-30T12:15:00Z',
-  }
+  },
 ];
 
 /* Trip Distribution:

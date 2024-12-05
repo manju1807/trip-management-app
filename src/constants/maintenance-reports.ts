@@ -100,7 +100,7 @@ export const VehicleMaintenanceMock: VehicleMaintenance[] = [
     bill_number: 'KSM/MAD/2024/2109',
     bill_amount: 2500.0,
     maintenance_time: '2024-11-30T08:00:00Z', // Minor service
-  }
+  },
 ];
 
 /* Maintenance Report Distribution:

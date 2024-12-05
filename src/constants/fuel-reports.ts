@@ -90,7 +90,7 @@ export const FuelInfoMock: FuelInfo[] = [
     bill_number: 'HP/MAD/2024/2109',
     fuel_cost: 4004.0, // Rs 104/liter
     fuel_filled_time: '2024-11-30T09:15:00Z',
-  }
+  },
 ];
 
 /* Fuel Report Distribution:

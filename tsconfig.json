@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/types/**.ts",
-    "next.config.mjs"
+    "next.config.mjs",
+    "src/app/(pages)/dashboard/reports/layout.tsxs"
   ],
   "exclude": ["node_modules"]
 }

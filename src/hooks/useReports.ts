@@ -38,7 +38,7 @@ export const reportColumns = {
     {
       header: 'Idle Time (min)',
       accessorKey: 'totalIdleTime',
-    }
+    },
   ],
 
   tripAlerts: [
@@ -73,7 +73,7 @@ export const reportColumns = {
     {
       header: 'Location',
       accessorKey: 'location',
-    }
+    },
   ],
 
   fuelMaintenance: [
@@ -108,8 +108,8 @@ export const reportColumns = {
     {
       header: 'Bill Number',
       accessorKey: 'billNumber',
-    }
-  ]
+    },
+  ],
 };
 
 export const useReports = () => {
@@ -118,21 +118,30 @@ export const useReports = () => {
     endDate: Date;
   }>({
     startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    endDate: new Date()
+    endDate: new Date(),
   });
 
-  const tripActivityData = useMemo(() =>
-    ReportsService.getTripActivityData(dateRange.startDate, dateRange.endDate),
+  const tripActivityData = useMemo(
+    () =>
+      ReportsService.getTripActivityData(
+        dateRange.startDate,
+        dateRange.endDate
+      ),
     [dateRange]
   );
 
-  const tripAlertsData = useMemo(() =>
-    ReportsService.getTripAlertsData(dateRange.startDate, dateRange.endDate),
+  const tripAlertsData = useMemo(
+    () =>
+      ReportsService.getTripAlertsData(dateRange.startDate, dateRange.endDate),
     [dateRange]
   );
 
-  const fuelMaintenanceData = useMemo(() =>
-    ReportsService.getFuelMaintenanceData(dateRange.startDate, dateRange.endDate),
+  const fuelMaintenanceData = useMemo(
+    () =>
+      ReportsService.getFuelMaintenanceData(
+        dateRange.startDate,
+        dateRange.endDate
+      ),
     [dateRange]
   );
 
@@ -145,6 +154,6 @@ export const useReports = () => {
     tripAlertsData,
     fuelMaintenanceData,
     dateRange,
-    updateDateRange
+    updateDateRange,
   };
 };

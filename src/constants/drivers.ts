@@ -156,7 +156,7 @@ export const Drivers: Driver[] = [
     license_number: 'TS0520180056789',
     license_expiry: '2025-09-30T00:00:00Z',
     created_at: '2023-09-15T19:20:00Z',
-  }
+  },
 ];
 
 /* Driver Distribution:

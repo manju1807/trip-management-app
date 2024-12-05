@@ -131,3 +131,25 @@ export interface RelatedDriverData {
   vehicles?: Vehicle[];
   gpsData: GpsData[];
 }
+
+import { type ReactNode } from 'react';
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+export interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+export interface MainLayoutProps {
+  children: ReactNode;
+  initialPinned?: boolean;
+}
+
+export interface SidebarProps {
+  isPinned: boolean;
+  onPinChange: () => void;
+}

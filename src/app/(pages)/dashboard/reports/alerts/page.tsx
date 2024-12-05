@@ -1,4 +1,5 @@
-// pages/reports/trip-alerts.tsx
+// @/app/(pages)/reports/trip-alerts.tsx
+
 'use client';
 
 import ReportTemplate from '@/components/views/Templates/reports/report-template';
@@ -12,10 +13,10 @@ export default function TripAlertsReport() {
       title="Trip Alerts Report"
       sections={[
         {
-          title: "Trip Alerts",
+          title: 'Trip Alerts',
           data: tripAlertsData,
-          columns: reportColumns.tripAlerts
-        }
+          columns: reportColumns.tripAlerts,
+        },
       ]}
     />
   );

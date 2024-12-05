@@ -45,8 +45,24 @@ const getChartOptions = (isDarkMode: boolean): ApexOptions => ({
     mode: isDarkMode ? 'dark' : 'light',
   },
   colors: isDarkMode
-    ? ['#393b64', '#393b64', '#393b64', '#393b64', '#7367f0', '#393b64', '#393b64']
-    : ['#e8e6fd', '#e8e6fd', '#e8e6fd', '#e8e6fd', '#7367f0', '#e8e6fd', '#e8e6fd'],
+    ? [
+        '#393b64',
+        '#393b64',
+        '#393b64',
+        '#393b64',
+        '#7367f0',
+        '#393b64',
+        '#393b64',
+      ]
+    : [
+        '#e8e6fd',
+        '#e8e6fd',
+        '#e8e6fd',
+        '#e8e6fd',
+        '#7367f0',
+        '#e8e6fd',
+        '#e8e6fd',
+      ],
   xaxis: {
     categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
     labels: {

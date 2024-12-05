@@ -16,7 +16,7 @@ const PerformanceCard = () => {
           {stats.trips.delayed} - delayed
         </div>
       </CardHeader>
-      <CardContent className='h-full'>
+      <CardContent className="h-full">
         <div className="flex justify-between items-center my-6">
           {/* Trip Section */}
           <div className="flex flex-col items-start space-y-2">
@@ -27,7 +27,9 @@ const PerformanceCard = () => {
               <span className="text-base font-medium">Trip</span>
             </div>
             <div className="mt-1 flex flex-col items-start">
-              <span className="text-2xl font-semibold">{stats.trips.inProgress}</span>
+              <span className="text-2xl font-semibold">
+                {stats.trips.inProgress}
+              </span>
               <span className="text-xs text-gray-400 ml-1">delayed</span>
             </div>
           </div>
@@ -35,7 +37,9 @@ const PerformanceCard = () => {
           {/* VS Divider */}
           <div className="relative text-muted-foreground">
             <div className="absolute h-16 w-px bg-muted-foreground -top-4 left-1/2 transform -translate-x-1/2" />
-            <span className="relative text-sm font-medium bg-card py-1">vs</span>
+            <span className="relative text-sm font-medium bg-card py-1">
+              vs
+            </span>
           </div>
 
           {/* Drivers Section */}
@@ -47,7 +51,9 @@ const PerformanceCard = () => {
               <span className="text-base font-medium">Drivers</span>
             </div>
             <div className="mt-1 flex flex-col items-end">
-              <span className="text-2xl font-semibold">{stats.drivers.available}</span>
+              <span className="text-2xl font-semibold">
+                {stats.drivers.available}
+              </span>
               <span className="text-xs text-gray-400 ml-1">available</span>
             </div>
           </div>

@@ -1,10 +1,17 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Map as LeafletMap } from 'leaflet';
 import {
   UserRound,
@@ -19,12 +26,12 @@ import {
   MapIcon,
   Users,
   ArrowLeft,
-  Search
+  Search,
 } from 'lucide-react';
 import { GpsDataMock } from '@/constants/gps-data';
 import { Drivers } from '@/constants/drivers';
 import MapComponent from '@/components/views/maps/MapComponent';
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface Driver {
   id: number;
@@ -55,7 +62,8 @@ export default function DriverTrackingDashboard() {
   const mapRef = useRef<LeafletMap | null>(null);
 
   useEffect(() => {
-    if (showMap || window.innerWidth >= 1024) { // 1024px is the 'lg' breakpoint in Tailwind
+    if (showMap || window.innerWidth >= 1024) {
+      // 1024px is the 'lg' breakpoint in Tailwind
       const timer = setTimeout(() => {
         setIsMapReady(true);
         if (mapRef.current) {
@@ -67,26 +75,29 @@ export default function DriverTrackingDashboard() {
   }, [showMap]);
 
   const driversWithGPS = useMemo(() => {
-    return Drivers.map(driver => ({
+    return Drivers.map((driver) => ({
       ...driver,
-      gpsData: GpsDataMock.find(gps => gps.driver === driver.id)
+      gpsData: GpsDataMock.find((gps) => gps.driver === driver.id),
     }));
   }, []);
 
   const filteredDrivers = useMemo(() => {
-    return driversWithGPS.filter(driver => {
-      const matchesSearch = driver.fullname.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = filterStatus === 'all'
-        ? true
-        : filterStatus === 'online'
-          ? (driver.gpsData?.signal_strength ?? 0) > 0
-          : (driver.gpsData?.signal_strength ?? 0) === 0;
+    return driversWithGPS.filter((driver) => {
+      const matchesSearch = driver.fullname
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesStatus =
+        filterStatus === 'all'
+          ? true
+          : filterStatus === 'online'
+            ? (driver.gpsData?.signal_strength ?? 0) > 0
+            : (driver.gpsData?.signal_strength ?? 0) === 0;
       return matchesSearch && matchesStatus;
     });
   }, [driversWithGPS, filterStatus, searchQuery]);
 
   const selectedDriverGPS = useMemo(() => {
-    const driver = driversWithGPS.find(d => d.id === selectedDriver);
+    const driver = driversWithGPS.find((d) => d.id === selectedDriver);
     return driver?.gpsData;
   }, [driversWithGPS, selectedDriver]);
 
@@ -154,21 +165,27 @@ export default function DriverTrackingDashboard() {
           size="icon"
           onClick={() => handleMapToggle(!showMap)}
           className={cn(
-            "shadow-lg",
+            'shadow-lg',
             showMap ? 'bg-primary-500 text-white' : 'bg-card'
           )}
         >
-          {showMap ? <Users className="h-4 w-4" /> : <MapIcon className="h-4 w-4" />}
+          {showMap ? (
+            <Users className="h-4 w-4" />
+          ) : (
+            <MapIcon className="h-4 w-4" />
+          )}
         </Button>
       </div>
 
       {/* Main Layout */}
       <div className="grid lg:grid-cols-[380px,1fr] gap-4 h-full">
         {/* Left Sidebar */}
-        <div className={cn(
-          "space-y-4 p-4 overflow-y-auto bg-card rounded-lg shadow-md",
-          showMap ? 'hidden lg:block' : 'block'
-        )}>
+        <div
+          className={cn(
+            'space-y-4 p-4 overflow-y-auto bg-card rounded-lg shadow-md',
+            showMap ? 'hidden lg:block' : 'block'
+          )}
+        >
           <div className="space-y-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -180,10 +197,7 @@ export default function DriverTrackingDashboard() {
               />
             </div>
             <div className="flex gap-2">
-              <Select
-                value={filterStatus}
-                onValueChange={setFilterStatus}
-              >
+              <Select value={filterStatus} onValueChange={setFilterStatus}>
                 <SelectTrigger className="w-full bg-card">
                   <SelectValue placeholder="Driver Status" />
                 </SelectTrigger>
@@ -215,7 +229,7 @@ export default function DriverTrackingDashboard() {
                 <Card
                   key={driver.id}
                   className={cn(
-                    "relative transition-all cursor-pointer hover:shadow-md rounded-md",
+                    'relative transition-all cursor-pointer hover:shadow-md rounded-md',
                     isSelected
                       ? 'bg-gradient-to-r from-[hsl(var(--gradient-purple-start))] to-[hsl(var(--gradient-purple-end))] text-white'
                       : 'bg-card hover:bg-accent',
@@ -228,38 +242,65 @@ export default function DriverTrackingDashboard() {
                       {/* Header */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className={cn(
-                            "p-2 rounded-md",
-                            isSelected ? 'bg-white/10' : 'bg-gray-500/10'
-                          )}>
-                            <UserRound className={cn(
-                              "w-4 h-4",
-                              isSelected ? 'text-white' : 'text-primary-600'
-                            )} />
+                          <div
+                            className={cn(
+                              'p-2 rounded-md',
+                              isSelected ? 'bg-white/10' : 'bg-gray-500/10'
+                            )}
+                          >
+                            <UserRound
+                              className={cn(
+                                'w-4 h-4',
+                                isSelected ? 'text-white' : 'text-primary-600'
+                              )}
+                            />
                           </div>
-                          <span className="text-button-md font-medium">{driver.fullname}</span>
+                          <span className="text-button-md font-medium">
+                            {driver.fullname}
+                          </span>
                         </div>
-                        <ChevronRight className={cn(
-                          "w-4 h-4",
-                          isSelected ? 'text-white' : 'text-muted-foreground'
-                        )} />
+                        <ChevronRight
+                          className={cn(
+                            'w-4 h-4',
+                            isSelected ? 'text-white' : 'text-muted-foreground'
+                          )}
+                        />
                       </div>
 
                       {/* Status Labels */}
                       <div className="grid grid-cols-2 gap-2 text-sm">
                         <div className="flex items-center gap-2">
-                          <Signal className={cn("w-4 h-4", isSelected && "text-white")} />
-                          <span className={cn(
-                            isSelected ? 'text-white' : isOnline ? 'text-success-500' : 'text-destructive-500'
-                          )}>
-                            {getSignalStrengthText(driver.gpsData?.signal_strength ?? 0)}
+                          <Signal
+                            className={cn(
+                              'w-4 h-4',
+                              isSelected && 'text-white'
+                            )}
+                          />
+                          <span
+                            className={cn(
+                              isSelected
+                                ? 'text-white'
+                                : isOnline
+                                  ? 'text-success-500'
+                                  : 'text-destructive-500'
+                            )}
+                          >
+                            {getSignalStrengthText(
+                              driver.gpsData?.signal_strength ?? 0
+                            )}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Battery className={cn(
-                            "w-4 h-4",
-                            isSelected ? 'text-white' : getBatteryColor(driver.gpsData?.battery_level ?? 0)
-                          )} />
+                          <Battery
+                            className={cn(
+                              'w-4 h-4',
+                              isSelected
+                                ? 'text-white'
+                                : getBatteryColor(
+                                    driver.gpsData?.battery_level ?? 0
+                                  )
+                            )}
+                          />
                           <span>{driver.gpsData?.battery_level ?? 0}%</span>
                         </div>
                       </div>
@@ -274,7 +315,9 @@ export default function DriverTrackingDashboard() {
                           <Clock className="w-4 h-4" />
                           <span>
                             {driver.gpsData?.timestamp
-                              ? new Date(driver.gpsData.timestamp).toLocaleTimeString()
+                              ? new Date(
+                                  driver.gpsData.timestamp
+                                ).toLocaleTimeString()
                               : 'No Data'}
                           </span>
                         </div>
@@ -302,18 +345,29 @@ export default function DriverTrackingDashboard() {
         </div>
 
         {/* Map Section */}
-        <div className={cn(
-          "relative h-full rounded-lg overflow-hidden",
-          !showMap ? 'hidden lg:block' : 'block'
-        )}>
+        <div
+          className={cn(
+            'relative h-full rounded-lg overflow-hidden',
+            !showMap ? 'hidden lg:block' : 'block'
+          )}
+        >
           {selectedDriverGPS?.latitude && selectedDriverGPS?.longitude ? (
             <div className="absolute inset-0 w-full h-full">
               <MapComponent
                 key={`map-${selectedDriver}`}
-                center={[selectedDriverGPS.latitude, selectedDriverGPS.longitude]}
+                center={[
+                  selectedDriverGPS.latitude,
+                  selectedDriverGPS.longitude,
+                ]}
                 zoom={13}
-                markerPosition={[selectedDriverGPS.latitude, selectedDriverGPS.longitude]}
-                popupContent={driversWithGPS.find(d => d.id === selectedDriver)?.fullname || ''}
+                markerPosition={[
+                  selectedDriverGPS.latitude,
+                  selectedDriverGPS.longitude,
+                ]}
+                popupContent={
+                  driversWithGPS.find((d) => d.id === selectedDriver)
+                    ?.fullname || ''
+                }
                 onMapReady={() => setIsMapReady(true)}
                 mapRef={mapRef}
               />

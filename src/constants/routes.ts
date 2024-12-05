@@ -6,7 +6,7 @@ export const RoutesMock: Route[] = [
     route_name: 'Hyderabad Ring Road Circuit',
     start_location: 'Shamshabad RGIA',
     end_location: 'Gachibowli IT Park',
-    end_location_latitude: 17.4400,
+    end_location_latitude: 17.44,
     end_location_longitude: 78.3489,
     idle_time: 30, // Standard traffic route
     speed_limit: 80,
@@ -110,7 +110,7 @@ export const RoutesMock: Route[] = [
     idle_time: 35, // Educational zone
     speed_limit: 40,
     created_at: '2024-11-30T10:15:00Z',
-  }
+  },
 ];
 
 /* Route Distribution:

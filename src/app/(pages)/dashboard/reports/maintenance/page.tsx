@@ -9,7 +9,7 @@ export default function FuelMaintenanceReport() {
 
   const combinedData = [
     ...fuelMaintenanceData.fuelReports,
-    ...fuelMaintenanceData.maintenanceReports
+    ...fuelMaintenanceData.maintenanceReports,
   ];
 
   return (
@@ -17,10 +17,10 @@ export default function FuelMaintenanceReport() {
       title="Fuel & Maintenance Report"
       sections={[
         {
-          title: "Fuel & Maintenance Records",
+          title: 'Fuel & Maintenance Records',
           data: combinedData,
-          columns: reportColumns.fuelMaintenance
-        }
+          columns: reportColumns.fuelMaintenance,
+        },
       ]}
     />
   );

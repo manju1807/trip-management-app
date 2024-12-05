@@ -190,7 +190,7 @@ export const Vehicles: Vehicle[] = [
     owner_contact: '+91-9943901234',
     speed_limit: 80,
     created_at: '2023-10-15T22:10:00Z',
-  }
+  },
 ];
 
 /* Vehicle Distribution:

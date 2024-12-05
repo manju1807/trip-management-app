@@ -29,7 +29,10 @@ const DynamicChart = dynamic(
       return function Chart({ data }: ChartProps) {
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={data}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
               <Area
                 type="monotone"
                 dataKey="value"

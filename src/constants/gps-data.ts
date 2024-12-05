@@ -4,7 +4,7 @@ export const GpsDataMock: GpsData[] = [
   {
     id: 1,
     driver: 1,
-    latitude: 17.3850,
+    latitude: 17.385,
     longitude: 78.4867,
     speed: 0,
     timestamp: '2024-11-30T09:15:00Z',
@@ -132,7 +132,7 @@ export const GpsDataMock: GpsData[] = [
     os_version: 'Android 13',
     battery_level: 32, // Low battery
     signal_strength: 2, // Poor signal
-  }
+  },
 ];
 
 /* GPS Data Distribution:

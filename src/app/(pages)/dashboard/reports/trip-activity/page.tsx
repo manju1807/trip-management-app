@@ -7,17 +7,15 @@ export default function TripActivityReport() {
   const { tripActivityData, dateRange, updateDateRange } = useReports();
 
   return (
-    <>
-      <ReportTemplate
-        title="Trip Activity Report"
-        sections={[
-          {
-            title: "Trip Activities",
-            data: tripActivityData,
-            columns: reportColumns.tripActivity
-          }
-        ]}
-      />
-    </>
+    <ReportTemplate
+      title="Trip Activity Report"
+      sections={[
+        {
+          title: 'Trip Activities',
+          data: tripActivityData,
+          columns: reportColumns.tripActivity,
+        },
+      ]}
+    />
   );
 }

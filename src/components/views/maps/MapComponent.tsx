@@ -30,19 +30,21 @@ const MapComponent: React.FC<MapComponentProps> = ({
   markerPosition,
   popupContent,
   onMapReady,
-  mapRef
+  mapRef,
 }) => {
   const internalMapRef = useRef<LeafletMap | null>(null);
   const actualMapRef = mapRef || internalMapRef;
 
-  return <DynamicMap
-    center={center}
-    zoom={zoom}
-    markerPosition={markerPosition}
-    popupContent={popupContent}
-    onMapReady={onMapReady}
-    mapRef={actualMapRef}
-  />;
+  return (
+    <DynamicMap
+      center={center}
+      zoom={zoom}
+      markerPosition={markerPosition}
+      popupContent={popupContent}
+      onMapReady={onMapReady}
+      mapRef={actualMapRef}
+    />
+  );
 };
 
 export default MapComponent;

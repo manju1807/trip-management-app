@@ -58,7 +58,7 @@ export const SpeedReportsMock: SpeedReport[] = [
     start_speed_time: '2024-11-30T12:20:00Z',
     end_speed_time: '2024-11-30T12:30:00Z',
     timestamp: '2024-11-30T12:30:00Z',
-    latitude: 17.4400,
+    latitude: 17.44,
     longitude: 78.3489,
   },
   {
@@ -88,8 +88,8 @@ export const SpeedReportsMock: SpeedReport[] = [
     start_speed_time: '2024-11-30T11:00:00Z',
     end_speed_time: '2024-11-30T11:10:00Z',
     timestamp: '2024-11-30T11:10:00Z',
-    latitude: 17.2410,
-    longitude: 78.4300,
+    latitude: 17.241,
+    longitude: 78.43,
   },
   {
     id: 10,
@@ -98,9 +98,9 @@ export const SpeedReportsMock: SpeedReport[] = [
     start_speed_time: '2024-11-30T12:15:00Z',
     end_speed_time: '2024-11-30T12:25:00Z',
     timestamp: '2024-11-30T12:25:00Z',
-    latitude: 17.6260,
-    longitude: 78.4810,
-  }
+    latitude: 17.626,
+    longitude: 78.481,
+  },
 ];
 
 /* Speed Report Distribution:

@@ -7,11 +7,15 @@ import dynamic from 'next/dynamic';
 import { ApexOptions } from 'apexcharts';
 import { useDashboard } from '@/hooks/useDashboard';
 
-const ReactApexcharts = dynamic(() => import('react-apexcharts'), { ssr: false });
+const ReactApexcharts = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 export default function TripsTracker() {
   const stats = useDashboard();
-  const completionRate = Math.round((stats.trips.completed / stats.trips.total) * 100);
+  const completionRate = Math.round(
+    (stats.trips.completed / stats.trips.total) * 100
+  );
 
   // Chart options
   const options: ApexOptions = {
@@ -111,7 +115,8 @@ export default function TripsTracker() {
   const metricTitleClasses = 'text-4xl font-semibold mb-2';
   const metricSubtitleClasses = 'mb-8 text-base text-muted-foreground';
   const itemContainerClasses = 'flex items-center mb-6 last:mb-0';
-  const itemIconWrapperClasses = 'mr-4 flex h-12 w-12 items-center justify-center rounded-lg';
+  const itemIconWrapperClasses =
+    'mr-4 flex h-12 w-12 items-center justify-center rounded-lg';
   const itemTitleClasses = 'text-sm font-medium';
   const itemSubtitleClasses = 'text-xs text-muted-foreground';
 
@@ -132,7 +137,9 @@ export default function TripsTracker() {
               <div key={index} className={itemContainerClasses}>
                 <div
                   className={itemIconWrapperClasses}
-                  style={{ backgroundColor: `color-mix(in srgb, ${item.color} 15%, transparent)` }}
+                  style={{
+                    backgroundColor: `color-mix(in srgb, ${item.color} 15%, transparent)`,
+                  }}
                 >
                   <div style={{ color: item.color }}>{item.icon}</div>
                 </div>
