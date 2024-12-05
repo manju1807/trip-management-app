@@ -309,7 +309,7 @@ export default function ReportTemplate<T, U extends T = T>({
             <h3 className="text-base px-6">{section.title}</h3>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse divide-y divide-border">
-                <thead className="bg-accent">
+                <thead className="bg-accent text-muted-foreground">
                   {tables[index].getHeaderGroups().map((headerGroup) => (
                     <tr
                       key={headerGroup.id}
@@ -331,9 +331,9 @@ export default function ReportTemplate<T, U extends T = T>({
                     </tr>
                   ))}
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-border text-muted-foreground">
                   {tables[index].getRowModel().rows.map((row) => (
-                    <tr key={row.id}>
+                    <tr key={row.id} className="text-sm">
                       {row.getVisibleCells().map((cell) => (
                         <td
                           key={cell.id}
@@ -372,7 +372,7 @@ export default function ReportTemplate<T, U extends T = T>({
                 <option
                   key={pageSize}
                   value={pageSize}
-                  className="bg-card text-gray-700"
+                  className="bg-card text-muted-foreground"
                 >
                   {pageSize}
                 </option>
