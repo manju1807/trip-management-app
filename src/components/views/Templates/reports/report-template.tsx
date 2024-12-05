@@ -22,7 +22,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
+import {
+  format,
+  subDays,
+  startOfDay,
+  endOfDay,
+  subWeeks,
+  subMonths,
+} from 'date-fns';
 
 interface TableSection<T> {
   title: string;
@@ -39,6 +46,13 @@ interface ReportTemplateProps<T, U extends T = T> {
   initialEndDate?: Date;
 }
 
+type QuickFilterOption =
+  | 'Today'
+  | 'Yesterday'
+  | 'Last Week'
+  | 'Last Month'
+  | 'Custom';
+
 export default function ReportTemplate<T, U extends T = T>({
   title,
   sections,
@@ -51,6 +65,8 @@ export default function ReportTemplate<T, U extends T = T>({
     initialStartDate
   );
   const [endDate, setEndDate] = React.useState<Date | null>(initialEndDate);
+  const [activeFilter, setActiveFilter] =
+    React.useState<QuickFilterOption>('Custom');
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [pagination, setPagination] = React.useState({
@@ -58,8 +74,44 @@ export default function ReportTemplate<T, U extends T = T>({
     pageSize: 5,
   });
 
+  const handleQuickFilter = (filter: QuickFilterOption) => {
+    setActiveFilter(filter);
+    const today = new Date();
+
+    let newStartDate: Date;
+    let newEndDate: Date;
+
+    switch (filter) {
+      case 'Today':
+        newStartDate = startOfDay(today);
+        newEndDate = endOfDay(today);
+        break;
+      case 'Yesterday':
+        newStartDate = startOfDay(subDays(today, 1));
+        newEndDate = endOfDay(subDays(today, 1));
+        break;
+      case 'Last Week':
+        newStartDate = startOfDay(subWeeks(today, 1));
+        newEndDate = endOfDay(today);
+        break;
+      case 'Last Month':
+        newStartDate = startOfDay(subMonths(today, 1));
+        newEndDate = endOfDay(today);
+        break;
+      default:
+        // For Custom, keep the current dates
+        return;
+    }
+
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
+
+    if (onDateRangeChange) {
+      onDateRangeChange(newStartDate, newEndDate);
+    }
+  };
+
   // Handle date changes and search
-  // Updated handleDateChange to handle undefined values
   const handleDateChange = (type: 'start' | 'end', date: Date | undefined) => {
     // Convert undefined to null
     const newDate = date || null;
@@ -69,11 +121,18 @@ export default function ReportTemplate<T, U extends T = T>({
     } else {
       setEndDate(newDate);
     }
+    // Setting filter to 'Custom' when a manual date selection is made
+    setActiveFilter('Custom');
   };
 
   const handleSearch = () => {
-    if (startDate && endDate && onDateRangeChange) {
-      onDateRangeChange(startDate, endDate);
+    if (startDate && endDate) {
+      // Ensuring 'Custom' is set as the active filter
+      setActiveFilter('Custom');
+
+      if (onDateRangeChange) {
+        onDateRangeChange(startDate, endDate);
+      }
     }
   };
 
@@ -133,77 +192,107 @@ export default function ReportTemplate<T, U extends T = T>({
     <Card className="w-full">
       <CardHeader className="border-b border-border space-y-6">
         <h2 className="text-lg">{title}</h2>
-        <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
-          <div className="space-y-1 flex flex-col w-full md:w-auto">
-            <label className="text-sm">Filter Start Date</label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    'w-full md:w-[240px] justify-start text-left font-normal',
-                    !startDate && 'text-muted-foreground'
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {startDate ? (
-                    format(startDate, 'PPP')
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={startDate || undefined}
-                  onSelect={(day) => handleDateChange('start', day)}
-                  disabled={(date) => (endDate ? date > endDate : false)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+        <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:items-end">
+          <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
+            <div className="space-y-1 flex flex-col w-full md:w-auto">
+              <label className="text-sm">Filter Start Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      'w-full md:w-[240px] justify-start text-left font-normal',
+                      !startDate && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? (
+                      format(startDate, 'PPP')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate || undefined}
+                    onSelect={(day) => handleDateChange('start', day)}
+                    disabled={(date) => (endDate ? date > endDate : false)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-1 flex flex-col w-full md:w-auto">
+              <label className="text-sm">Filter End Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      'w-full md:w-[240px] justify-start text-left font-normal',
+                      !endDate && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? (
+                      format(endDate, 'PPP')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate || undefined}
+                    onSelect={(day) => handleDateChange('end', day)}
+                    disabled={(date) => (startDate ? date < startDate : false)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <Button
+              className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md"
+              onClick={handleSearch}
+              disabled={!startDate || !endDate}
+            >
+              Search
+            </Button>
           </div>
-          <div className="space-y-1 flex flex-col w-full md:w-auto">
-            <label className="text-sm">Filter End Date</label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    'w-full md:w-[240px] justify-start text-left font-normal',
-                    !endDate && 'text-muted-foreground'
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {endDate ? format(endDate, 'PPP') : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={endDate || undefined}
-                  onSelect={(day) => handleDateChange('end', day)}
-                  disabled={(date) => (startDate ? date < startDate : false)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                'Today',
+                'Yesterday',
+                'Last Week',
+                'Last Month',
+                'Custom',
+              ] as const
+            ).map((filter) => (
+              <Button
+                key={filter}
+                variant={activeFilter === filter ? 'default' : 'outline'}
+                onClick={() => handleQuickFilter(filter)}
+                className={cn(
+                  'px-4 py-2',
+                  activeFilter === filter &&
+                    'bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-white'
+                )}
+              >
+                {filter}
+              </Button>
+            ))}
           </div>
-          <Button
-            className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground shadow-md"
-            onClick={handleSearch}
-            disabled={!startDate || !endDate}
-          >
-            Search
-          </Button>
         </div>
       </CardHeader>
 
-      <CardContent className="p-6 space-y-6">
+      <CardContent className="px-0 py-6 space-y-6">
         {/* Rest of the component remains the same */}
-        <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 md:items-center">
-          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground shadow-md">
+        <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 md:items-center px-6">
+          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">
             Export xlsx
           </Button>
           <input
@@ -217,7 +306,7 @@ export default function ReportTemplate<T, U extends T = T>({
 
         {validSections.map((section, index) => (
           <div key={section.title} className="space-y-4">
-            <h3 className="text-base">{section.title}</h3>
+            <h3 className="text-base px-6">{section.title}</h3>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse divide-y divide-border">
                 <thead className="bg-accent">
