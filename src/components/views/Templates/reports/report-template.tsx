@@ -12,11 +12,17 @@ import {
   ColumnDef,
   Table,
 } from '@tanstack/react-table';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { ChevronLeft, ChevronRight, CalendarIcon } from 'lucide-react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 
 interface TableSection<T> {
   title: string;
@@ -104,21 +110,57 @@ export default function ReportTemplate<T, U extends T = T>({
         <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
           <div className="space-y-1 flex flex-col w-full md:w-auto">
             <label className="text-sm">Filter Start Date</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              className="w-full md:w-48 px-3 py-2 border border-border rounded-md text-sm"
-              dateFormat="MMMM d, yyyy"
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    'w-full md:w-[240px] justify-start text-left font-normal',
+                    !startDate && 'text-muted-foreground'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {startDate ? (
+                    format(startDate, 'PPP')
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={startDate || undefined}
+                  onSelect={(day) => setStartDate(day ?? null)} // Convert undefined to null
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="space-y-1 flex flex-col w-full md:w-auto">
             <label className="text-sm">Filter End Date</label>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              className="w-full md:w-48 px-3 py-2 border border-border rounded-md text-sm"
-              dateFormat="MMMM d, yyyy"
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    'w-full md:w-[240px] justify-start text-left font-normal',
+                    !endDate && 'text-muted-foreground'
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {endDate ? format(endDate, 'PPP') : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={endDate || undefined}
+                  onSelect={(day) => setEndDate(day ?? null)} // Convert undefined to null
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground">
             Search
@@ -127,6 +169,7 @@ export default function ReportTemplate<T, U extends T = T>({
       </CardHeader>
 
       <CardContent className="p-6 space-y-6">
+        {/* Rest of the component remains the same */}
         <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 md:items-center">
           <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] text-destructive-foreground">
             Export xlsx
