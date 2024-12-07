@@ -51,6 +51,8 @@ export interface Route {
   route_name?: string;
   start_location?: string;
   end_location?: string;
+  start_location_latitude?: number;
+  start_location_longitude?: number;
   end_location_latitude?: number;
   end_location_longitude?: number;
   idle_time?: number;
