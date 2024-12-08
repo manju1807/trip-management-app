@@ -1,4 +1,4 @@
-import { getDashboardStats } from '@/services/data';
+import { getDashboardStats } from '@/services';
 // hooks/useDashboard.ts
 import { useMemo } from 'react';
 

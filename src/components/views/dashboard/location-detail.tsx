@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { getDashboardStats } from '@/services/data';
+import { getDashboardStats } from '@/services';
 
 // Define types for our data structures
 interface ChartDataPoint {

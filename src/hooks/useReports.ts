@@ -2,7 +2,7 @@
 
 // hooks/useReports.ts
 import { useState, useMemo } from 'react';
-import { ReportsService } from '@/services/data/reports';
+import { ReportsService } from '@/services/reports';
 
 // Column definitions for ReportTemplate
 export const reportColumns = {

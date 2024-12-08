@@ -1,4 +1,4 @@
-import { getVehicleWithCurrentTrip } from '@/services/data';
+import { getVehicleWithCurrentTrip } from '@/services';
 // hooks/useVehicle.ts
 import { useMemo } from 'react';
 

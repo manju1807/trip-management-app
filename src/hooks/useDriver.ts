@@ -1,4 +1,4 @@
-import { getDriverWithCurrentTrip } from '@/services/data';
+import { getDriverWithCurrentTrip } from '@/services';
 // hooks/useDriver.ts
 import { useMemo } from 'react';
 

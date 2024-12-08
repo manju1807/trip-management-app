@@ -1,4 +1,4 @@
-import { getTripWithDetails } from '@/services/data';
+import { getTripWithDetails } from '@/services';
 // hooks/useTrip.ts
 import { useMemo } from 'react';
 

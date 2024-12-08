@@ -279,7 +279,7 @@ export default function ReportTemplate<T, U extends T = T>({
                 className={cn(
                   'px-4 py-2',
                   activeFilter === filter &&
-                    'bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-white'
+                  'bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-white'
                 )}
               >
                 {filter}
@@ -323,9 +323,9 @@ export default function ReportTemplate<T, U extends T = T>({
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </th>
                       ))}
                     </tr>

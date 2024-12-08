@@ -73,8 +73,8 @@ export const ReportsService = {
         duration:
           report.start_speed_time && report.end_speed_time
             ? (new Date(report.end_speed_time).getTime() -
-                new Date(report.start_speed_time).getTime()) /
-              60000
+              new Date(report.start_speed_time).getTime()) /
+            60000
             : 0,
       };
     });
@@ -99,8 +99,8 @@ export const ReportsService = {
         duration:
           report.start_idle_time && report.end_idle_time
             ? (new Date(report.end_idle_time).getTime() -
-                new Date(report.start_idle_time).getTime()) /
-              60000
+              new Date(report.start_idle_time).getTime()) /
+            60000
             : 0,
       };
     });
