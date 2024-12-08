@@ -10,9 +10,6 @@ import { useDashboard } from '@/hooks/useDashboard';
 
 const ReactApexcharts = dynamic(() => import('react-apexcharts'), {
   ssr: false,
-  loading: () => (
-    <div className="h-[200px] w-full bg-muted animate-pulse rounded" />
-  ),
 });
 
 const getChartOptions = (isDarkMode: boolean): ApexOptions => ({
@@ -25,6 +22,18 @@ const getChartOptions = (isDarkMode: boolean): ApexOptions => ({
     sparkline: { enabled: false },
     offsetX: 0,
     offsetY: 0,
+    animations: {
+      enabled: true,
+      speed: 800,
+      animateGradually: {
+        enabled: true,
+        delay: 150,
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350,
+      },
+    },
   },
   plotOptions: {
     bar: {
@@ -77,17 +86,17 @@ const getChartOptions = (isDarkMode: boolean): ApexOptions => ({
   yaxis: { show: false },
 });
 
-const chartSeries = [{ data: [30, 45, 35, 25, 50, 30, 35] }];
-
 const FleetStatsCard = () => {
   const metrics = useDashboard();
-  const [mounted, setMounted] = React.useState(false);
   const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const [chartSeries, setChartSeries] = React.useState<{ data: number[] }[]>(
+    []
+  );
+  const [options, setOptions] = React.useState(getChartOptions(isDarkMode));
 
   React.useEffect(() => {
-    setMounted(true);
     setIsDarkMode(document.documentElement.classList.contains('dark'));
-
+    console.log(`the values: ${JSON.stringify(metrics.vehicles)}`);
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
@@ -102,6 +111,19 @@ const FleetStatsCard = () => {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    setOptions(getChartOptions(isDarkMode));
+  }, [isDarkMode]);
+
+  // Trigger animation by updating chart data after mount
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setChartSeries([{ data: [30, 45, 35, 25, 50, 30, 35] }]);
+    }, 300); // Delay to allow for mount animation
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const stats = [
@@ -127,24 +149,6 @@ const FleetStatsCard = () => {
       progressColor: 'bg-red-400',
     },
   ];
-
-  if (!mounted) {
-    return (
-      <Card className="bg-card text-muted-foreground shadow-xl rounded-md">
-        <CardHeader className="p-4 pb-0">
-          <CardTitle className="text-base font-medium">
-            Fleets Data
-            <p className="text-xs font-normal text-muted-foreground mt-1">
-              Vehicle data and efficiency
-            </p>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-4">
-          <div className="h-[200px] w-full bg-muted animate-pulse rounded" />
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="bg-card text-muted-foreground shadow-xl rounded-md">
@@ -173,7 +177,7 @@ const FleetStatsCard = () => {
           </div>
           <div className="md:col-span-3 h-[200px] -mx-4">
             <ReactApexcharts
-              options={getChartOptions(isDarkMode)}
+              options={options}
               series={chartSeries}
               type="bar"
               height="100%"

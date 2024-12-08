@@ -71,7 +71,7 @@ export const RoutesMock: Route[] = [
     route_name: 'Outer Ring Road Express',
     start_location: 'Shamshabad',
     start_location_latitude: 17.2329,
-    start_location_longitude: 78.4290,
+    start_location_longitude: 78.429,
     end_location: 'Medchal',
     end_location_latitude: 17.6252,
     end_location_longitude: 78.4801,

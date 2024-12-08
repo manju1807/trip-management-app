@@ -13,9 +13,18 @@ const ReactApexcharts = dynamic(() => import('react-apexcharts'), {
 
 export default function TripsTracker() {
   const stats = useDashboard();
-  const completionRate = Math.round(
-    (stats.trips.completed / stats.trips.total) * 100
-  );
+  const [chartSeries, setChartSeries] = React.useState<number[]>([0]);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      const completionRate = Math.round(
+        (stats.trips.completed / stats.trips.total) * 100
+      );
+      setChartSeries([completionRate || 0]);
+    }, 300); // Delay to allow for smooth animation
+
+    return () => clearTimeout(timeout);
+  }, [stats.trips.completed, stats.trips.total]);
 
   // Chart options
   const options: ApexOptions = {
@@ -75,7 +84,7 @@ export default function TripsTracker() {
           },
           value: {
             offsetY: 15,
-            fontSize: '36px', // Updated for consistency with main metric
+            fontSize: '36px',
             fontWeight: '600',
             formatter: (val) => `${val}%`,
             color: 'hsl(var(--foreground))',
@@ -155,7 +164,7 @@ export default function TripsTracker() {
               type="radialBar"
               height={325}
               options={options}
-              series={[completionRate]}
+              series={chartSeries}
             />
           </div>
         </div>
