@@ -5,11 +5,13 @@ import { MENU_STRUCTURE } from '@/constants/sidebar/sidebar';
 import LogoSVG from '@/custom/svgs/logo-svg';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+
 interface MenuItemProps {
   icon: React.ReactNode;
   label: string;
   href: string;
   isActive?: boolean;
+  isDisabled?: boolean;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({
@@ -17,28 +19,41 @@ const MenuItem: React.FC<MenuItemProps> = ({
   label,
   href,
   isActive = false,
+  isDisabled = false,
 }) => {
   const router = useRouter();
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isDisabled) {
+      e.preventDefault();
+      return;
+    }
+    router.push(href);
+  };
 
   return (
     <Button
       variant="ghost"
-      className="w-full justify-start items-center mb-1 relative overflow-hidden text-muted-foreground"
-      onClick={() => router.push(href)}
+      className={`
+        w-full justify-start items-center mb-1 relative overflow-hidden
+        ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'text-muted-foreground hover:bg-accent'}
+      `}
+      onClick={handleClick}
+      disabled={isDisabled}
     >
       <div
         className={`
           absolute inset-0 bg-gradient-to-r from-[hsl(var(--gradient-purple-start))] to-[hsl(var(--gradient-purple-end))]
           transition-opacity duration-500 ease-in-out
           shadow-sidebar-menu-shadow
-          ${isActive ? 'opacity-100' : 'opacity-0'}
+          ${isActive && !isDisabled ? 'opacity-100' : 'opacity-0'}
         `}
       />
       <div className="relative flex items-center w-full">
         <span
           className={`
             transition-colors duration-300 ease-in-out
-            ${isActive ? 'text-gray-50' : 'text-muted-foreground'}
+            ${isActive && !isDisabled ? 'text-gray-50' : 'text-muted-foreground'}
           `}
         >
           {icon}
@@ -46,7 +61,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
         <span
           className={`
             ml-3 transition-all duration-300 ease-in-out
-            ${isActive ? 'text-gray-50' : 'text-muted-foreground'}
+            ${isActive && !isDisabled ? 'text-gray-50' : 'text-muted-foreground'}
           `}
         >
           {label}
@@ -98,6 +113,7 @@ const MobileSidebar = () => {
                 label={item.label}
                 href={item.href}
                 isActive={pathname === item.href}
+                isDisabled={item.isDisabled}
               />
             ))}
           </React.Fragment>

@@ -6,6 +6,7 @@ export interface MenuSection {
     icon: LucideIcon;
     label: string;
     href: string;
+    isDisabled?: boolean;
   }>;
 }
 
@@ -18,6 +19,7 @@ export interface MenuItemProps {
   icon: React.ReactNode;
   label: string;
   href: string;
+  isDisabled?: boolean;
   isActive?: boolean;
   isPinned: boolean;
 }

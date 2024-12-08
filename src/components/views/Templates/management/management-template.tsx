@@ -15,8 +15,8 @@ const StatCard: React.FC<StatCardProps> = ({
   value,
   subtitle,
   icon: Icon = TrendingUp,
-  iconColor = "text-green-700",
-  iconBgColor = "bg-green-200"
+  iconColor = 'text-green-700',
+  iconBgColor = 'bg-green-200',
 }) => (
   <div className="p-2 rounded-md shadow-md h-full w-full flex flex-row justify-between border border-border bg-card">
     <div className="space-y-2">
@@ -33,10 +33,8 @@ const StatCard: React.FC<StatCardProps> = ({
 );
 
 const Header: React.FC = () => {
-  return (
-    <h1>hello from header component</h1>
-  )
-}
+  return <h1>hello from header component</h1>;
+};
 
 const ManagementLayout: React.FC = () => {
   const stats = [
@@ -46,7 +44,7 @@ const ManagementLayout: React.FC = () => {
       subtitle: 'Total Vehicles',
       icon: TrendingUp,
       iconColor: 'text-green-700',
-      iconBgColor: 'bg-green-200'
+      iconBgColor: 'bg-green-200',
     },
     {
       title: 'Active',
@@ -54,7 +52,7 @@ const ManagementLayout: React.FC = () => {
       subtitle: 'Active Vehicles',
       icon: TrendingUp,
       iconColor: 'text-blue-700',
-      iconBgColor: 'bg-blue-200'
+      iconBgColor: 'bg-blue-200',
     },
     {
       title: 'Maintenance',
@@ -62,7 +60,7 @@ const ManagementLayout: React.FC = () => {
       subtitle: 'In Maintenance',
       icon: TrendingUp,
       iconColor: 'text-orange-700',
-      iconBgColor: 'bg-orange-200'
+      iconBgColor: 'bg-orange-200',
     },
   ];
 
@@ -79,10 +77,7 @@ const ManagementLayout: React.FC = () => {
           <div className="flex flex-col w-full h-full justify-between gap-4">
             <div className="flex flex-row gap-4 justify-between">
               {stats.map((stat, index) => (
-                <StatCard
-                  key={index}
-                  {...stat}
-                />
+                <StatCard key={index} {...stat} />
               ))}
             </div>
             <div className="flex flex-col justify-center items-center">
