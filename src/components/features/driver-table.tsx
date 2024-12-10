@@ -1,0 +1,587 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import {
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  flexRender,
+  ColumnDef,
+  ColumnFiltersState,
+  RowSelectionState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  ChevronDown,
+  ChevronUp,
+  Filter,
+  MoreVertical,
+  Search,
+  RefreshCw,
+  UserPlus,
+  MapPin,
+} from 'lucide-react';
+import { EnhancedDriver, DriverStatus } from '@/types';
+
+interface DriverTableProps {
+  data: EnhancedDriver[];
+  onDriverSelect: (driverId: number) => void;
+  statusFilters?: DriverStatus[];
+  searchTerm?: string;
+}
+
+const STATUS_OPTIONS: DriverStatus[] = [
+  'on-trip',
+  'available',
+  'offline',
+  'active',
+];
+
+const getStatusColor = (status: DriverStatus): string =>
+  ({
+    'on-trip': 'bg-success-100 text-success-700',
+    available: 'bg-primary-100 text-primary-700',
+    offline: 'bg-secondary-100 text-secondary-700',
+    active: 'bg-info-100 text-info-700',
+  })[status] || 'bg-muted text-muted-foreground';
+
+const getSafetyScoreColor = (value: number): string => {
+  if (value >= 90) return 'text-success-600';
+  if (value >= 70) return 'text-warning-600';
+  return 'text-destructive-600';
+};
+
+const columns: ColumnDef<EnhancedDriver>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px]"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-[2px]"
+      />
+    ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'id',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>ID</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <span className="text-muted-foreground">{row.getValue('id')}</span>
+    ),
+  },
+  {
+    accessorKey: 'fullname',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>Driver Name</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const fullname = row.getValue<string>('fullname');
+      const initials = fullname
+        .split(' ')
+        .map((n) => n[0])
+        .join('');
+
+      return (
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
+            <span className="text-sm font-medium text-primary-700">
+              {initials}
+            </span>
+          </div>
+          <span className="font-medium">{fullname}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>Status</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <Badge className={getStatusColor(row.getValue('status'))}>
+        {row.getValue('status')}
+      </Badge>
+    ),
+    filterFn: (row, columnId, filterValue: DriverStatus[]) => {
+      if (!filterValue.length) return true;
+      return filterValue.includes(row.getValue(columnId));
+    },
+  },
+  {
+    accessorKey: 'currentVehicle.id',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>Current Vehicle</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const vehicleId = row.getValue('currentVehicle.id');
+      return vehicleId ? (
+        <span className="font-medium">vehicleId</span>
+      ) : (
+        <span className="text-muted-foreground">Unassigned</span>
+      );
+    },
+  },
+  {
+    accessorKey: 'metrics.safetyMetrics.safetyRating',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>Safety Score</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const safetyMetrics = row.original.metrics?.safetyMetrics;
+      const score = safetyMetrics?.safetyRating;
+
+      if (score == null) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
+      return (
+        <span className={`font-medium ${getSafetyScoreColor(score)}`}>
+          {score.toFixed(1)}%
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: 'metrics.tripMetrics.onTimeRate',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>On-Time Rate</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const onTimeRate = row.original.metrics?.tripMetrics?.onTimeRate;
+
+      if (onTimeRate == null) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
+      return <span className="font-medium">{onTimeRate.toFixed(1)}%</span>;
+    },
+  },
+  {
+    accessorKey: 'state',
+    header: ({ column }) => {
+      const sorted = column.getIsSorted();
+      return (
+        <div className="flex items-center cursor-pointer">
+          <span>Region</span>
+          {sorted &&
+            (sorted === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ))}
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <MapPin className="h-4 w-4 text-muted-foreground" />
+        <span>{row.getValue('state')}</span>
+      </div>
+    ),
+  },
+  {
+    id: 'actions',
+    enableSorting: false,
+    cell: ({ row }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <MoreVertical className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem>View Details</DropdownMenuItem>
+          <DropdownMenuItem>Edit Driver</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="text-destructive-600">
+            Deactivate
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
+];
+
+export const DriverTableContainer: React.FC<DriverTableProps> = ({
+  data,
+  onDriverSelect,
+  statusFilters = [],
+  searchTerm: initialSearchTerm = '',
+}) => {
+  const [localSearchTerm, setLocalSearchTerm] = useState(initialSearchTerm);
+  const [selectedStatus, setSelectedStatus] = useState<DriverStatus | null>(
+    null
+  );
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const table = useReactTable({
+    data,
+    columns,
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
+  useEffect(() => {
+    if (statusFilters.length > 0) {
+      setColumnFilters((prev) => {
+        const newFilters = prev.filter((filter) => filter.id !== 'status');
+        return [...newFilters, { id: 'status', value: statusFilters }];
+      });
+    } else {
+      setColumnFilters((prev) =>
+        prev.filter((filter) => filter.id !== 'status')
+      );
+    }
+  }, [statusFilters]);
+
+  useEffect(() => {
+    if (localSearchTerm) {
+      setColumnFilters((prev) => {
+        const newFilters = prev.filter((filter) => filter.id !== 'fullname');
+        return [...newFilters, { id: 'fullname', value: localSearchTerm }];
+      });
+    } else {
+      setColumnFilters((prev) =>
+        prev.filter((filter) => filter.id !== 'fullname')
+      );
+    }
+  }, [localSearchTerm]);
+
+  const handleReset = () => {
+    setLocalSearchTerm('');
+    setSelectedStatus(null);
+    setColumnFilters([]);
+  };
+
+  return (
+    <Card className="w-full rounded-md">
+      <CardContent className="p-6">
+        <div className="space-y-4">
+          {/* Table Controls */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            {/* Search and Filters */}
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
+              <div className="relative w-full md:w-auto">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search drivers..."
+                  className="pl-8 w-full md:w-[250px] bg-card border-border"
+                  value={localSearchTerm}
+                  onChange={(e) => setLocalSearchTerm(e.target.value)}
+                />
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="bg-card border-border">
+                    <Filter className="mr-2 h-4 w-4" />
+                    {selectedStatus || 'Select Status'}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="w-[200px] bg-card"
+                >
+                  {STATUS_OPTIONS.map((status) => (
+                    <DropdownMenuItem
+                      key={status}
+                      onClick={() => setSelectedStatus(status)}
+                      className={
+                        selectedStatus === status
+                          ? 'font-semibold text-destructive-foreground bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] shadow-xl'
+                          : ''
+                      }
+                    >
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button
+                variant="outline"
+                onClick={handleReset}
+                className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md"
+              >
+                <RefreshCw className="h-4 w-4 text-destructive-foreground" />
+              </Button>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full md:w-auto">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="bg-card border-border">
+                    Columns
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">
+                Export
+              </Button>
+              <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">
+                <UserPlus className="mr-2 h-4 w-4" />
+                Add Driver
+              </Button>
+            </div>
+          </div>
+
+          {/* Table */}
+          <div className="space-y-2">
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder ? null : (
+                            <div
+                              className="flex items-left cursor-pointer p-0 hover:bg-secondary/50 transition-colors text-nowrap"
+                              onClick={header.column.getToggleSortingHandler()}
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </div>
+                          )}
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableHeader>
+                <TableBody>
+                  {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => (
+                      <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && 'selected'}
+                        onClick={() => onDriverSelect(row.original.id)}
+                        className="cursor-pointer text-nowrap"
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center"
+                      >
+                        No results.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-1 items-center space-x-2">
+                <Select
+                  value={table.getState().pagination.pageSize.toString()}
+                  onValueChange={(value) => {
+                    table.setPageSize(Number(value));
+                  }}
+                >
+                  <SelectTrigger className="h-8 w-[70px]">
+                    <SelectValue
+                      placeholder={table.getState().pagination.pageSize}
+                    />
+                  </SelectTrigger>
+                  <SelectContent side="top">
+                    {[5, 10, 15, 20, 25].map((pageSize) => (
+                      <SelectItem key={pageSize} value={pageSize.toString()}>
+                        {pageSize}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-sm text-muted-foreground">
+                  {table.getFilteredSelectedRowModel().rows.length} of{' '}
+                  {table.getFilteredRowModel().rows.length} row(s) selected.
+                </span>
+              </div>
+              <div className="flex items-center justify-end space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default DriverTableContainer;

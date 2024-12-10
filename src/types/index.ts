@@ -1,5 +1,6 @@
 export type DateTime = string; // Assuming DateTime is represented as an ISO string in TypeScript
 
+// Core Entities
 export interface Driver {
   id: number;
   fullname: string;
@@ -12,18 +13,6 @@ export interface Driver {
   license_number?: string;
   license_expiry?: DateTime;
   created_at: DateTime;
-}
-
-export interface GpsData {
-  id: number;
-  driver: number;
-  latitude?: number | null;
-  longitude?: number | null;
-  speed?: number | null;
-  timestamp?: DateTime;
-  os_version?: string;
-  battery_level?: number;
-  signal_strength?: number;
 }
 
 export interface Vehicle {
@@ -78,6 +67,7 @@ export interface Trip {
   created_at: DateTime;
 }
 
+// Reports and Metrics
 export interface IdleReport {
   id: number;
   trip: number;
@@ -119,6 +109,49 @@ export interface VehicleMaintenance {
   bill_amount?: number;
   maintenance_time?: DateTime | null;
 }
+
+export interface DriverPerformanceMetrics {
+  timeManagement: {
+    averageTripDuration: number;
+    responseTime: number;
+    onDutyHours: number;
+    breakTimeCompliance: number;
+    lastBreakTime?: DateTime;
+  };
+  safetyMetrics: {
+    suddenBrakingCount: number;
+    suddenAccelerationCount: number;
+    speedViolationCount: number;
+    averageSpeedScore: number;
+    safetyRating: number;
+  };
+  tripMetrics: {
+    totalTrips: number;
+    completedTrips: number;
+    onTimeRate: number;
+    totalDistance: number;
+    averageTripsPerDay: number;
+  };
+  efficiencyMetrics: {
+    averageIdleTime: number;
+    fuelEfficiency: number;
+    routeAdherence: number;
+  };
+}
+
+// Additional Data Structures
+export interface GpsData {
+  id: number;
+  driver: number;
+  latitude?: number | null;
+  longitude?: number | null;
+  speed?: number | null;
+  timestamp?: DateTime;
+  os_version?: string;
+  battery_level?: number;
+  signal_strength?: number;
+}
+
 export interface RelatedTripData {
   trip: Trip;
   speedReports: SpeedReport[];
@@ -134,6 +167,79 @@ export interface RelatedDriverData {
   gpsData: GpsData[];
 }
 
+// Enhanced Entities and Status
+export type DriverStatus = 'active' | 'available' | 'offline' | 'on-trip';
+export type DeviceStatus =
+  | 'excellent'
+  | 'good'
+  | 'poor'
+  | 'critical'
+  | 'offline';
+export type DocumentStatus = 'valid' | 'expiring' | 'expired';
+
+export interface EnhancedDriver extends Driver {
+  status: DriverStatus;
+  deviceStatus: DeviceStatus;
+  currentLocation?: {
+    latitude: number;
+    longitude: number;
+    timestamp: DateTime;
+  };
+  currentTrip?: Trip;
+  currentVehicle?: Vehicle;
+  deviceInfo: {
+    batteryLevel?: number;
+    signalStrength?: number;
+    lastUpdated: DateTime;
+    osVersion?: string;
+  };
+  metrics: DriverPerformanceMetrics;
+  recentActivity: ActivityEvent[];
+}
+
+export interface OverviewMetrics {
+  totalCount: number;
+  activeCount: number;
+  availableCount: number;
+  offlineCount: number;
+  criticalIssues: {
+    lowBattery: number;
+    poorSignal: number;
+    offline: number;
+    total: number;
+  };
+  licenseAlerts: {
+    expired: number;
+    expiringSoon: number;
+  };
+}
+
+// Activity Timeline
+export type ActivityType =
+  | 'trip'
+  | 'violation'
+  | 'maintenance'
+  | 'status_change'
+  | 'document_update'
+  | 'break';
+
+export interface ActivityEvent {
+  id: number;
+  driverId: number;
+  type: ActivityType;
+  timestamp: DateTime;
+  description: string;
+  metadata: {
+    tripId?: number;
+    vehicleId?: number;
+    location?: { latitude: number; longitude: number };
+    status?: DriverStatus;
+    documentType?: string;
+    violationType?: string;
+  };
+}
+
+// UI Components and Error Handling
 import { type ReactNode } from 'react';
 
 export interface ErrorBoundaryState {
@@ -154,4 +260,35 @@ export interface MainLayoutProps {
 export interface SidebarProps {
   isPinned: boolean;
   onPinChange: () => void;
+}
+
+// Filter and Sort Options
+export interface DriverFilters {
+  status?: DriverStatus[];
+  search?: string;
+  dateRange?: {
+    start: DateTime;
+    end: DateTime;
+  };
+  performanceThreshold?: number;
+  vehicleTypes?: string[];
+  regions?: string[];
+  documentStatus?: DocumentStatus;
+}
+
+export interface SortOption {
+  field: keyof EnhancedDriver | keyof DriverPerformanceMetrics;
+  direction: 'asc' | 'desc';
+}
+
+// Bulk Operations
+export interface BulkOperation {
+  driverIds: number[];
+  operation: 'status_update' | 'vehicle_assign' | 'document_update' | 'export';
+  payload?: {
+    status?: DriverStatus;
+    vehicleId?: number;
+    documentType?: string;
+    exportFormat?: 'csv' | 'xlsx' | 'pdf';
+  };
 }

@@ -49,7 +49,7 @@ export const MENU_STRUCTURE: MenuSection[] = [
         icon: Users,
         label: 'Drivers',
         href: '/dashboard/driver-management',
-        isDisabled: true,
+        isDisabled: false,
       },
       {
         icon: Truck,
