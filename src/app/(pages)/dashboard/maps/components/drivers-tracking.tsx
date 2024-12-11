@@ -25,11 +25,10 @@ import {
   AlertCircle,
   ChevronRight,
   Search,
-  X,
 } from 'lucide-react';
 import { GpsDataMock } from '@/constants/gps-data';
 import { Drivers } from '@/constants/drivers';
-import MapComponent from '@/components/views/maps/MapComponent';
+import MapComponent from './MapComponent';
 import { cn } from '@/lib/utils';
 import { Driver, GpsData } from '@/types';
 interface DriverWithGPS extends Driver {

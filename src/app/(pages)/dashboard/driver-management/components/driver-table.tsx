@@ -218,7 +218,7 @@ export const DriverTableContainer: React.FC<DriverTableProps> = ({
           </div>
 
           {/* Table */}
-          <div className="space-y-2">
+          <div className="space-y-4 md:space-y-2">
             <div className="rounded-md border border-border">
               <Table>
                 <TableHeader className="bg-accent text-muted-foreground">
