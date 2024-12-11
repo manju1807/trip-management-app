@@ -1,82 +1,90 @@
 // MainLayout.tsx
 'use client';
-
 import React, { type ReactNode, useState } from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import {
+  ErrorBoundary as ReactErrorBoundary,
+  FallbackProps,
+} from 'react-error-boundary';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import Navbar from './navbar/navbar';
 import DesktopSidebar from './sidebar/desktop-sidebar';
-import {
-  ErrorBoundaryProps,
-  ErrorBoundaryState,
-  MainLayoutProps,
-} from '@/types/';
+import { MainLayoutProps } from '@/types/';
 
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-    };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return {
-      hasError: true,
-      error,
-    };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    // Type-safe error logging
-    console.error({
-      error: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
-    });
-  }
-
-  render(): ReactNode {
-    if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
-
-      return (
-        <div className="flex items-center justify-center h-screen p-4">
-          <Alert variant="destructive" className="max-w-md">
-            <AlertTriangle className="h-5 w-5" />
-            <AlertTitle>Something went wrong</AlertTitle>
-            <AlertDescription className="mt-2">
-              {this.state.error?.message ||
-                'An unexpected error occurred in the application layout.'}
-            </AlertDescription>
-            <Button
-              variant="outline"
-              className="mt-4"
-              onClick={() => window.location.reload()}
-            >
-              Reload Page
-            </Button>
-          </Alert>
+const DefaultErrorFallback: React.FC<FallbackProps> = ({
+  error,
+  resetErrorBoundary,
+}) => (
+  <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="max-w-md w-full space-y-8 bg-white p-6 rounded-xl shadow-lg">
+      <div className="flex flex-col items-center text-center">
+        <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+          <AlertTriangle className="h-6 w-6 text-red-600" />
         </div>
-      );
-    }
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Oops! Something went wrong
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">
+          {error.message || 'An unexpected error occurred in the application.'}
+        </p>
+      </div>
 
-    return this.props.children;
-  }
-}
+      <div className="flex flex-col space-y-3">
+        <Button
+          variant="default"
+          className="w-full flex items-center justify-center space-x-2"
+          onClick={resetErrorBoundary}
+        >
+          <RefreshCw className="h-4 w-4" />
+          <span>Try Again</span>
+        </Button>
+
+        <Button
+          variant="outline"
+          className="w-full flex items-center justify-center space-x-2"
+          onClick={() => (window.location.href = '/')}
+        >
+          <Home className="h-4 w-4" />
+          <span>Return Home</span>
+        </Button>
+      </div>
+
+      <div className="mt-6 text-center">
+        <p className="text-xs text-gray-400">
+          If this problem persists, please contact support
+        </p>
+      </div>
+    </div>
+  </div>
+);
 
 const LoadingFallback = (): JSX.Element => (
   <div className="flex items-center justify-center h-screen">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
   </div>
 );
+
+const ErrorBoundaryWrapper: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const onError = (error: Error, info: React.ErrorInfo): void => {
+    console.error({
+      error: error.message,
+      stack: error.stack,
+      componentStack: info.componentStack || 'No component stack available',
+    });
+  };
+
+  return (
+    <ReactErrorBoundary
+      FallbackComponent={DefaultErrorFallback}
+      onError={onError}
+      onReset={() => window.location.reload()}
+    >
+      {children}
+    </ReactErrorBoundary>
+  );
+};
 
 const MainLayout = ({
   children,
@@ -99,19 +107,18 @@ const MainLayout = ({
       isTransitioning: true,
     }));
 
-    // Reset transition state after animation
     setTimeout(() => {
       setPinnedState((prev) => ({
         ...prev,
         isTransitioning: false,
       }));
-    }, 300); // Match duration-300 from Tailwind
+    }, 300);
   };
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundaryWrapper>
       <React.Suspense fallback={<LoadingFallback />}>
-        <main className="h-full bg-background max-h-[100dvh] max-w-[100dvw] overflow-hidden">
+        <main className="h-full bg-background md:max-h-[100dvh] max-w-[100dvw] overflow-y-auto md:overflow-hidden">
           <div className="relative flex h-full">
             <div
               className={`
@@ -128,7 +135,7 @@ const MainLayout = ({
             <div
               className={`
                 flex flex-col flex-1 transition-all
-                duration-300 max-w-[86rem] overflow-clip, mx-auto py-2
+                duration-300 max-w-[86rem] overflow-clip mx-auto py-2
               `}
             >
               <Navbar />
@@ -137,7 +144,7 @@ const MainLayout = ({
           </div>
         </main>
       </React.Suspense>
-    </ErrorBoundary>
+    </ErrorBoundaryWrapper>
   );
 };
 

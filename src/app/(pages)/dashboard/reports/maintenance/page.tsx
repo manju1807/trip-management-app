@@ -1,7 +1,7 @@
 // pages/reports/fuel-maintenance.tsx
 'use client';
 
-import ReportTemplate from '@/components/views/Templates/reports/report-template';
+import ReportTemplate from '@/components/views/reports/report-template';
 import { useReports, reportColumns } from '@/hooks/useReports';
 
 export default function FuelMaintenanceReport() {
