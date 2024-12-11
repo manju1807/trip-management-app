@@ -14,6 +14,14 @@ const ReactApexcharts = dynamic(() => import('react-apexcharts'), {
 export default function TripsTracker() {
   const stats = useDashboard();
   const [chartSeries, setChartSeries] = React.useState<number[]>([0]);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -29,7 +37,7 @@ export default function TripsTracker() {
   // Chart options
   const options: ApexOptions = {
     chart: {
-      height: 320,
+      height: isMobile ? 200 : 325,
       type: 'radialBar',
       sparkline: { enabled: true },
       animations: {
@@ -41,9 +49,9 @@ export default function TripsTracker() {
       },
     },
     stroke: {
-      dashArray: 10,
+      dashArray: isMobile ? 5 : 10,
       lineCap: 'butt',
-      width: 20,
+      width: isMobile ? 12 : 20,
       show: true,
       curve: 'smooth',
     },
@@ -77,14 +85,14 @@ export default function TripsTracker() {
         },
         dataLabels: {
           name: {
-            offsetY: -15,
+            offsetY: isMobile ? -10 : -15,
             color: 'hsl(var(--muted-foreground))',
-            fontSize: '16px',
+            fontSize: isMobile ? '12px' : '16px',
             fontWeight: '400',
           },
           value: {
-            offsetY: 15,
-            fontSize: '36px',
+            offsetY: isMobile ? 10 : 15,
+            fontSize: isMobile ? '24px' : '36px',
             fontWeight: '600',
             formatter: (val) => `${val}%`,
             color: 'hsl(var(--foreground))',
@@ -117,52 +125,52 @@ export default function TripsTracker() {
     },
   ];
 
-  // Constants for reused styles
-  const cardHeaderClasses = 'pb-2';
-  const cardTitleClasses = 'text-base font-medium';
-  const subtitleClasses = 'text-xs font-normal text-muted-foreground mt-1';
-  const metricTitleClasses = 'text-4xl font-semibold mb-2';
-  const metricSubtitleClasses = 'mb-8 text-base text-muted-foreground';
-  const itemContainerClasses = 'flex items-center mb-6 last:mb-0';
-  const itemIconWrapperClasses =
-    'mr-4 flex h-12 w-12 items-center justify-center rounded-lg';
-  const itemTitleClasses = 'text-sm font-medium';
-  const itemSubtitleClasses = 'text-xs text-muted-foreground';
-
   return (
     <Card className="h-full w-full rounded-md shadow-xl">
-      <CardHeader className={cardHeaderClasses}>
-        <CardTitle className={cardTitleClasses}>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-medium">
           Trips Tracker
-          <p className={subtitleClasses}>Last 7 Days</p>
+          <p className="text-xs font-normal text-muted-foreground mt-1">
+            Last 7 Days
+          </p>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-12">
-          <div className="sm:col-span-5">
-            <h2 className={metricTitleClasses}>{stats.trips.total}</h2>
-            <p className={metricSubtitleClasses}>Total Trips</p>
-            {data.map((item, index) => (
-              <div key={index} className={itemContainerClasses}>
-                <div
-                  className={itemIconWrapperClasses}
-                  style={{
-                    backgroundColor: `color-mix(in srgb, ${item.color} 15%, transparent)`,
-                  }}
-                >
-                  <div style={{ color: item.color }}>{item.icon}</div>
+        <div className="grid grid-cols-3 md:grid-cols-12 gap-2 md:gap-8">
+          <div className="col-span-1 md:col-span-5">
+            <h2 className="text-2xl md:text-4xl font-semibold mb-2">
+              {stats.trips.total}
+            </h2>
+            <p className="mb-4 md:mb-8 text-sm md:text-base text-muted-foreground">
+              Total Trips
+            </p>
+            <div className="space-y-3 md:space-y-6">
+              {data.map((item, index) => (
+                <div key={index} className="flex items-center">
+                  <div
+                    className="mr-3 md:mr-4 flex h-8 md:h-12 w-8 md:w-12 items-center justify-center rounded-lg"
+                    style={{
+                      backgroundColor: `color-mix(in srgb, ${item.color} 15%, transparent)`,
+                    }}
+                  >
+                    <div style={{ color: item.color }}>{item.icon}</div>
+                  </div>
+                  <div className="flex flex-col">
+                    <h6 className="text-xs md:text-sm font-medium">
+                      {item.title}
+                    </h6>
+                    <span className="text-xs text-muted-foreground">
+                      {item.subtitle}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <h6 className={itemTitleClasses}>{item.title}</h6>
-                  <span className={itemSubtitleClasses}>{item.subtitle}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="flex items-center justify-center sm:col-span-7">
+          <div className="flex items-center justify-center col-span-2 md:col-span-7">
             <ReactApexcharts
               type="radialBar"
-              height={325}
+              height={isMobile ? 200 : 325}
               options={options}
               series={chartSeries}
             />

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useDriver } from '@/hooks/useDriver';
 import { Users, UserCheck, AlertTriangle, Clock } from 'lucide-react';
-import { DriverTableContainer } from '@/app/(pages)/dashboard/driver-management/components/driver-table';
+import { DriverTableContainer } from './components/driver-table';
 import DriverDetailsPanel from './components/driver-panel';
 import MetricCard from './components/metric-card';
 import { StatusCards } from './components/status-card';
@@ -73,7 +73,7 @@ const DriverManagement = () => {
   return (
     <div className="md:max-w-[86rem] max-w-[100dvw] overflow-x-auto overflow-y-auto p-4">
       <div className="h-full relative">
-        <div className="grid lg:grid-cols-[380px,1fr] gap-4 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-[380px,1fr] gap-4 h-full">
           {/* Left Sidebar */}
           <div className="space-y-4 p-4 overflow-y-auto bg-card rounded-md shadow-md">
             <DriverDetailsPanel selectedDriver={selectedDriver} />

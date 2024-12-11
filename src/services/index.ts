@@ -1,22 +1,9 @@
-import type {
-  Driver,
-  FuelInfo,
-  GpsData,
-  IdleReport,
-  Route,
-  SpeedReport,
-  Trip,
-  Vehicle,
-  VehicleMaintenance,
-} from '../types/index';
+import type { GpsData, Trip, VehicleMaintenance } from '../types/index';
 
 import { Drivers } from '@/constants/drivers';
-import { FuelInfoMock } from '@/constants/fuel-reports';
 import { GpsDataMock } from '@/constants/gps-data';
-import { IdleReportsMock as IdleReports } from '@/constants/idle-reports';
 import { VehicleMaintenanceMock as Maintenance } from '@/constants/maintenance-reports';
 import { RoutesMock as Routes } from '@/constants/routes';
-import { SpeedReportsMock as SpeedReports } from '@/constants/speed-reports';
 import { TripsMock as Trips } from '@/constants/trips';
 import { Vehicles } from '@/constants/vehicles';
 

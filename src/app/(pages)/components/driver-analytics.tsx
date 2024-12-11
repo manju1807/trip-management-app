@@ -8,7 +8,7 @@ export default function DriverAnalysisCard() {
   const stats = useDashboard();
 
   return (
-    <Card className="col-span-1 md:col-span-2 relative bg-[hsl(var(--gradient-purple-start))] shadow-xl text-white rounded-md overflow-hidden">
+    <Card className="col-span-1 md:col-span-2 relative bg-[hsl(var(--gradient-purple-start))] shadow-xl text-destructive-foreground rounded-md overflow-hidden border-border">
       <CardHeader className="pb-2">
         <h5 className="text-xl font-semibold mb-1">Tripsy Analysis</h5>
         <p className="text-sm opacity-75">Driver Analysis</p>

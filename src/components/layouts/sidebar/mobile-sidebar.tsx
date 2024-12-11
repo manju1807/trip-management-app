@@ -32,42 +32,44 @@ const MenuItem: React.FC<MenuItemProps> = ({
   };
 
   return (
-    <Button
-      variant="ghost"
-      className={`
+    <SheetClose asChild>
+      <Button
+        variant="ghost"
+        className={`
         w-full justify-start items-center mb-1 relative overflow-hidden
         ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'text-muted-foreground hover:bg-accent'}
       `}
-      onClick={handleClick}
-      disabled={isDisabled}
-    >
-      <div
-        className={`
+        onClick={handleClick}
+        disabled={isDisabled}
+      >
+        <div
+          className={`
           absolute inset-0 bg-gradient-to-r from-[hsl(var(--gradient-purple-start))] to-[hsl(var(--gradient-purple-end))]
           transition-opacity duration-500 ease-in-out
           shadow-sidebar-menu-shadow
           ${isActive && !isDisabled ? 'opacity-100' : 'opacity-0'}
         `}
-      />
-      <div className="relative flex items-center w-full">
-        <span
-          className={`
+        />
+        <div className="relative flex items-center w-full">
+          <span
+            className={`
             transition-colors duration-300 ease-in-out
             ${isActive && !isDisabled ? 'text-gray-50' : 'text-muted-foreground'}
           `}
-        >
-          {icon}
-        </span>
-        <span
-          className={`
+          >
+            {icon}
+          </span>
+          <span
+            className={`
             ml-3 transition-all duration-300 ease-in-out
             ${isActive && !isDisabled ? 'text-gray-50' : 'text-muted-foreground'}
           `}
-        >
-          {label}
-        </span>
-      </div>
-    </Button>
+          >
+            {label}
+          </span>
+        </div>
+      </Button>
+    </SheetClose>
   );
 };
 

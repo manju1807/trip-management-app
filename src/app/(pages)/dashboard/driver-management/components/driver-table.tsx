@@ -219,7 +219,7 @@ export const DriverTableContainer: React.FC<DriverTableProps> = ({
 
           {/* Table */}
           <div className="space-y-2">
-            <div className="rounded-md border">
+            <div className="rounded-md border border-border">
               <Table>
                 <TableHeader className="bg-accent text-muted-foreground">
                   {table.getHeaderGroups().map((headerGroup) => (

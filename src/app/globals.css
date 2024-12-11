@@ -23,11 +23,80 @@
     --border: 240 5.9% 90%; /* #E6E6E6 */
     --input: 240 5.9% 90%; /* #E6E6E6 */
     --ring: 240 10% 3.9%; /* #090909 */
+
+    /* Primary Colors */
+    --primary-100: 246 85% 94%; /* #E3E1FC */
+    --primary-200: 245 83% 87%; /* #C7C2F9 */
+    --primary-300: 246 82% 80%; /* #ABA4F6 */
+    --primary-400: 246 82% 74%; /* #8F85F3 */
+    --primary-500: 246 84% 67%; /* #7367F0 */
+    --primary-600: 246 64% 61%; /* #675DD8 */
+    --primary-700: 246 55% 57%; /* #6258CC */
+    --primary-800: 246 47% 54%; /* #5C52C0 */
+    --primary-900: 246 40% 51%; /* #564DB4 */
+
+    /* Secondary Colors */
+    --secondary-100: 240 6% 91%; /* #E6E6E9 */
+    --secondary-200: 228 7% 81%; /* #CCCDD3 */
+    --secondary-300: 227 7% 72%; /* #B3B5BC */
+    --secondary-400: 227 7% 63%; /* #999CA6 */
+    --secondary-500: 227 7% 54%; /* #808390 */
+    --secondary-600: 227 6% 48%; /* #737682 */
+    --secondary-700: 227 6% 45%; /* #6D6F7A */
+    --secondary-800: 227 5% 43%; /* #666973 */
+    --secondary-900: 227 5% 40%; /* #60626C */
+
+    /* Info Colors */
+    --info-100: 189 67% 88%; /* #CCF1F6 */
+    --info-200: 189 67% 76%; /* #99E3ED */
+    --info-300: 189 67% 65%; /* #66D6E3 */
+    --info-400: 189 67% 53%; /* #33C8DA */
+    --info-500: 189 100% 41%; /* #00BAD1 */
+    --info-600: 189 100% 37%; /* #00A7BC */
+    --info-700: 189 100% 35%; /* #009EB2 */
+    --info-800: 189 100% 33%; /* #0095A7 */
+    --info-900: 189 100% 31%; /* #008C9D */
+
+    /* Success Colors */
+    --success-100: 148 67% 89%; /* #D4F4E2 */
+    --success-200: 148 67% 79%; /* #A9E9C5 */
+    --success-300: 148 67% 68%; /* #7EDDA9 */
+    --success-400: 148 67% 57%; /* #53D28C */
+    --success-500: 148 67% 47%; /* #28C76F */
+    --success-600: 148 67% 42%; /* #24B364 */
+    --success-700: 148 67% 40%; /* #22A95E */
+    --success-800: 148 67% 37%; /* #209F59 */
+    --success-900: 148 67% 35%; /* #1E9553 */
+
+    /* Warning Colors */
+    --warning-100: 33 100% 92%; /* #FFECD9 */
+    --warning-200: 33 100% 85%; /* #FFD9B4 */
+    --warning-300: 33 100% 78%; /* #FFC58E */
+    --warning-400: 33 100% 71%; /* #FFB269 */
+    --warning-500: 33 100% 63%; /* #FF9F43 */
+    --warning-600: 33 80% 57%; /* #E68F3C */
+    --warning-700: 33 67% 54%; /* #D98739 */
+    --warning-800: 33 57% 50%; /* #CC7F36 */
+    --warning-900: 33 47% 47%; /* #BF7732 */
+
+    /* Destructive Colors */
+    --destructive-100: 0 100% 93%; /* #FFDBDC */
+    --destructive-200: 0 100% 86%; /* #FFB7B9 */
+    --destructive-300: 359 100% 79%; /* #FF9497 */
+    --destructive-400: 359 100% 72%; /* #FF7074 */
+    --destructive-500: 359 100% 65%; /* #FF4C51 */
+    --destructive-600: 359 80% 58%; /* #E64449 */
+    --destructive-700: 359 67% 55%; /* #D94145 */
+    --destructive-800: 359 57% 52%; /* #CC3D41 */
+    --destructive-900: 359 47% 49%; /* #BF393D */
+
+    /* Chart Colors */
     --chart-1: 12 76% 61%; /* #E1623A */
     --chart-2: 173 58% 39%; /* #2C8C8E */
     --chart-3: 197 37% 24%; /* #276BA3 */
     --chart-4: 43 74% 66%; /* #9AD948 */
     --chart-5: 27 87% 67%; /* #F5E549 */
+
     --radius: 0.5rem;
     --gradient-purple-start: 245 82% 67%; /* #9E9EFA */
     --gradient-purple-end: 246 81% 77%; /* #D0D0FA */
@@ -53,11 +122,79 @@
     --border: 240 3.7% 15.9%; /* #2C2C2C */
     --input: 240 3.7% 15.9%; /* #2C2C2C */
     --ring: 240 4.9% 83.9%; /* #141414 */
+
+    /* Keep all the color variations from above for dark mode */
+    --primary-100: 246 85% 94%; /* #E3E1FC */
+    --primary-200: 245 83% 87%; /* #C7C2F9 */
+    --primary-300: 246 82% 80%; /* #ABA4F6 */
+    --primary-400: 246 82% 74%; /* #8F85F3 */
+    --primary-500: 246 84% 67%; /* #7367F0 */
+    --primary-600: 246 64% 61%; /* #675DD8 */
+    --primary-700: 246 55% 57%; /* #6258CC */
+    --primary-800: 246 47% 54%; /* #5C52C0 */
+    --primary-900: 246 40% 51%; /* #564DB4 */
+
+    /* Secondary Colors */
+    --secondary-100: 240 6% 91%; /* #E6E6E9 */
+    --secondary-200: 228 7% 81%; /* #CCCDD3 */
+    --secondary-300: 227 7% 72%; /* #B3B5BC */
+    --secondary-400: 227 7% 63%; /* #999CA6 */
+    --secondary-500: 227 7% 54%; /* #808390 */
+    --secondary-600: 227 6% 48%; /* #737682 */
+    --secondary-700: 227 6% 45%; /* #6D6F7A */
+    --secondary-800: 227 5% 43%; /* #666973 */
+    --secondary-900: 227 5% 40%; /* #60626C */
+
+    /* Info Colors */
+    --info-100: 189 67% 88%; /* #CCF1F6 */
+    --info-200: 189 67% 76%; /* #99E3ED */
+    --info-300: 189 67% 65%; /* #66D6E3 */
+    --info-400: 189 67% 53%; /* #33C8DA */
+    --info-500: 189 100% 41%; /* #00BAD1 */
+    --info-600: 189 100% 37%; /* #00A7BC */
+    --info-700: 189 100% 35%; /* #009EB2 */
+    --info-800: 189 100% 33%; /* #0095A7 */
+    --info-900: 189 100% 31%; /* #008C9D */
+
+    /* Success Colors */
+    --success-100: 148 67% 89%; /* #D4F4E2 */
+    --success-200: 148 67% 79%; /* #A9E9C5 */
+    --success-300: 148 67% 68%; /* #7EDDA9 */
+    --success-400: 148 67% 57%; /* #53D28C */
+    --success-500: 148 67% 47%; /* #28C76F */
+    --success-600: 148 67% 42%; /* #24B364 */
+    --success-700: 148 67% 40%; /* #22A95E */
+    --success-800: 148 67% 37%; /* #209F59 */
+    --success-900: 148 67% 35%; /* #1E9553 */
+
+    /* Warning Colors */
+    --warning-100: 33 100% 92%; /* #FFECD9 */
+    --warning-200: 33 100% 85%; /* #FFD9B4 */
+    --warning-300: 33 100% 78%; /* #FFC58E */
+    --warning-400: 33 100% 71%; /* #FFB269 */
+    --warning-500: 33 100% 63%; /* #FF9F43 */
+    --warning-600: 33 80% 57%; /* #E68F3C */
+    --warning-700: 33 67% 54%; /* #D98739 */
+    --warning-800: 33 57% 50%; /* #CC7F36 */
+    --warning-900: 33 47% 47%; /* #BF7732 */
+
+    /* Destructive Colors */
+    --destructive-100: 0 100% 93%; /* #FFDBDC */
+    --destructive-200: 0 100% 86%; /* #FFB7B9 */
+    --destructive-300: 359 100% 79%; /* #FF9497 */
+    --destructive-400: 359 100% 72%; /* #FF7074 */
+    --destructive-500: 359 100% 65%; /* #FF4C51 */
+    --destructive-600: 359 80% 58%; /* #E64449 */
+    --destructive-700: 359 67% 55%; /* #D94145 */
+    --destructive-800: 359 57% 52%; /* #CC3D41 */
+    --destructive-900: 359 47% 49%; /* #BF393D */
+
     --chart-1: 220 70% 50%; /* #007ACC */
     --chart-2: 160 60% 45%; /* #2CBF6A */
     --chart-3: 30 80% 55%; /* #FFC43D */
     --chart-4: 280 65% 60%; /* #C278D6 */
     --chart-5: 340 75% 55%; /* #FF6699 */
+
     --gradient-purple-start: 245 82% 67%; /* #9E9EFA */
     --gradient-purple-end: 245 44% 54%; /* #5F5F8C */
   }
@@ -67,25 +204,32 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
   h1 {
     @apply text-h1;
   }
+
   h2 {
     @apply text-h2;
   }
+
   h3 {
     @apply text-h3;
   }
+
   h4 {
     @apply text-h4;
   }
+
   h5 {
     @apply text-h5;
   }
+
   h6 {
     @apply text-h6;
   }

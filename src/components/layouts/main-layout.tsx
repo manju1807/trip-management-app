@@ -10,6 +10,7 @@ import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import Navbar from './navbar/navbar';
 import DesktopSidebar from './sidebar/desktop-sidebar';
 import { MainLayoutProps } from '@/types/';
+import { ScrollArea } from '../ui/scroll-area';
 
 const DefaultErrorFallback: React.FC<FallbackProps> = ({
   error,
@@ -134,12 +135,12 @@ const MainLayout = ({
             </div>
             <div
               className={`
-                flex flex-col flex-1 transition-all
-                duration-300 max-w-[86rem] overflow-clip mx-auto py-2
-              `}
+                  flex flex-col flex-1 transition-all
+                  duration-300 max-w-[100dvw] md:max-w-[86rem] overflow-y-auto md:overflow-clip mx-auto py-2
+                  `}
             >
               <Navbar />
-              {children}
+              <ScrollArea>{children}</ScrollArea>
             </div>
           </div>
         </main>
