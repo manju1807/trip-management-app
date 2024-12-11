@@ -1,30 +1,8 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import './globals.css';
 import { Providers } from '@/app/providers/tanstack-provider';
+import { metadata, siteConfig, viewport } from '@/configs/site';
 
-// Inter Variable Font configuration
-const inter = localFont({
-  src: [
-    {
-      path: './fonts/Inter/Inter-VariableFont_opsz,wght.ttf',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-inter',
-  display: 'swap',
-  weight: '100 900',
-  fallback: ['system-ui', 'sans-serif'],
-});
-
-export const metadata: Metadata = {
-  title: 'Trip Planner',
-  description: 'Plan your trips effortlessly with our app!',
-};
+export { metadata, viewport };
 
 export default function RootLayout({
   children,
@@ -34,7 +12,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${inter.className} antialiased min-h-screen w-full h-full`}
+        className={`${siteConfig.fonts.inter.className} antialiased min-h-screen w-full h-full`}
       >
         <Providers>{children}</Providers>
       </body>

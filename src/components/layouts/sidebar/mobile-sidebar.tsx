@@ -92,7 +92,7 @@ const MobileSidebar = () => {
       <div className="flex items-center justify-between py-4 px-4 w-full border-b">
         <div className="flex items-center gap-3">
           <LogoSVG fill="hsl(245, 82%, 67%)" className="size-8" />
-          <span className="font-semibold">Tripsy</span>
+          <span className="font-semibold">Voyager Pro</span>
         </div>
         <SheetClose />
       </div>
