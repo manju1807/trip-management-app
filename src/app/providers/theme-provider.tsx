@@ -1,4 +1,3 @@
-// src/providers/theme-provider.tsx
 'use client';
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
@@ -6,12 +5,8 @@ import * as React from 'react';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
-    // Get theme from localStorage or system preference
-    const theme =
-      localStorage.getItem('trip-planner-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light');
+    // Get theme from localStorage or default to light
+    const theme = localStorage.getItem('trip-planner-theme') || 'light';
 
     // Apply theme
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -20,8 +15,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="light"
+      enableSystem={false}
       disableTransitionOnChange
       storageKey="trip-planner-theme"
     >
