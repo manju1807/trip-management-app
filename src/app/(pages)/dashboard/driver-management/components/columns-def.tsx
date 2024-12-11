@@ -1,5 +1,5 @@
 import { EnhancedDriver, DriverStatus } from '@/types';
-import { getStatusColor } from '@/utils/get-statuscolor';
+import { getStatusColor } from '@/utils/getStatusColor';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,

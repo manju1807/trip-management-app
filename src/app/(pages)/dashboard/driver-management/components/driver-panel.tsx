@@ -11,9 +11,9 @@ import {
   Tooltip,
   Line,
 } from 'recharts';
-import { getInitials } from '@/utils/get-initials';
+import { getInitials } from '@/utils/getInitials';
 import { Badge } from '@/components/ui/badge';
-import { getStatusColor } from '@/utils/get-statuscolor';
+import { getStatusColor } from '@/utils/getStatusColor';
 
 interface DriverDetailsPanelProps {
   selectedDriver?: EnhancedDriver | null;

@@ -13,6 +13,7 @@ import {
   Table,
   OnChangeFn,
   PaginationState,
+  RowSelectionState,
 } from '@tanstack/react-table';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,8 @@ interface DataTableProps<T> {
   setGlobalFilter: (filter: string) => void;
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
+  rowSelection: RowSelectionState;
+  setRowSelection: OnChangeFn<RowSelectionState>;
 }
 
 export default function DataTable<T>({
@@ -41,6 +44,8 @@ export default function DataTable<T>({
   setGlobalFilter,
   pagination,
   setPagination,
+  rowSelection,
+  setRowSelection,
 }: DataTableProps<T>) {
   const finalColumns = React.useMemo(() => {
     if (!showCheckbox) {
@@ -81,7 +86,10 @@ export default function DataTable<T>({
       sorting,
       globalFilter,
       pagination,
+      rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
@@ -133,7 +141,7 @@ export default function DataTable<T>({
               setPagination({ ...pagination, pageSize: Number(e.target.value) })
             }
           >
-            {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+            {[5, 10, 15, 20, 25, 30].map((pageSize) => (
               <option
                 key={pageSize}
                 value={pageSize}

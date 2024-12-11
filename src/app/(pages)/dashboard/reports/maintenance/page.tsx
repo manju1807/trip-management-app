@@ -12,6 +12,19 @@ export default function FuelMaintenanceReport() {
     ...fuelMaintenanceData.maintenanceReports,
   ];
 
+  const transformExportData = (data: any[]) => {
+    return data.map((item) => ({
+      'Report ID': item.reportId,
+      Type: item.type,
+      'Trip ID': item.tripId,
+      Driver: item.driverName,
+      Vehicle: item.vehicleNumber,
+      'Amount (₹)': item.amount,
+      Timestamp: item.timestamp,
+      'Bill Number': item.billNumber,
+    }));
+  };
+
   return (
     <ReportTemplate
       title="Fuel & Maintenance Report"
@@ -25,6 +38,8 @@ export default function FuelMaintenanceReport() {
       onDateRangeChange={updateDateRange}
       initialStartDate={dateRange.startDate}
       initialEndDate={dateRange.endDate}
+      exportFileName="fuel_maintenance_report"
+      transformExportData={transformExportData}
     />
   );
 }

@@ -41,6 +41,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Filter, Search, RefreshCw, UserPlus } from 'lucide-react';
 import { EnhancedDriver, DriverStatus } from '@/types';
 import { columns } from './columns-def';
+import { exportTableData } from '@/utils/tableExport';
+import { getTodayDate } from '@/utils/getTodayDate';
 
 interface DriverTableProps {
   data: EnhancedDriver[];
@@ -206,8 +208,29 @@ export const DriverTableContainer: React.FC<DriverTableProps> = ({
                     ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Button
+                className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md"
+                onClick={() => {
+                  const selectedRowIndices = Object.keys(rowSelection)
+                    .map(Number)
+                    .filter((index) => rowSelection[index]);
 
-              <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">
+                  const dataToExport =
+                    selectedRowIndices.length > 0
+                      ? selectedRowIndices.map((index) => data[index])
+                      : data;
+
+                  const customFormat = getTodayDate('MM/DD/YYYY');
+                  const file_name = `driversData-${customFormat}`;
+
+                  exportTableData({
+                    data: dataToExport,
+                    filename: file_name,
+                    sheetName: 'Drivers',
+                    format: 'xlsx',
+                  });
+                }}
+              >
                 Export
               </Button>
               <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">

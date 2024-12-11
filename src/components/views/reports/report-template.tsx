@@ -4,6 +4,7 @@ import React from 'react';
 import {
   ColumnDef,
   PaginationState,
+  RowSelectionState,
   SortingState,
 } from '@tanstack/react-table';
 import { CalendarIcon } from 'lucide-react';
@@ -25,6 +26,7 @@ import {
   subMonths,
 } from 'date-fns';
 import DataTable from './components/data-table';
+import { exportTableData } from '@/utils/tableExport';
 
 interface TableSection<T> {
   title: string;
@@ -32,13 +34,15 @@ interface TableSection<T> {
   columns: ColumnDef<T, any>[];
 }
 
-interface ReportTemplateProps<T, U extends T = T> {
+interface ReportTemplateProps<T> {
   title: string;
   sections: TableSection<T>[];
   showCheckbox?: boolean;
   onDateRangeChange?: (startDate: Date, endDate: Date) => void;
   initialStartDate?: Date;
   initialEndDate?: Date;
+  exportFileName?: string; // New prop for custom export filename
+  transformExportData?: (data: T[]) => any[]; // New prop for data transformation before export
 }
 
 type QuickFilterOption =
@@ -55,6 +59,8 @@ export default function ReportTemplate<T>({
   onDateRangeChange,
   initialStartDate = new Date(new Date().setMonth(new Date().getMonth() - 1)),
   initialEndDate = new Date(),
+  exportFileName,
+  transformExportData,
 }: ReportTemplateProps<T>) {
   const [startDate, setStartDate] = React.useState<Date | null>(
     initialStartDate
@@ -68,6 +74,7 @@ export default function ReportTemplate<T>({
     pageIndex: 0,
     pageSize: 5,
   });
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
   const handleQuickFilter = (filter: QuickFilterOption) => {
     setActiveFilter(filter);
@@ -129,6 +136,52 @@ export default function ReportTemplate<T>({
   const validSections = sections.filter(
     (section): section is TableSection<T> => section !== undefined
   );
+
+  const handleExport = () => {
+    // Get selected rows if any are selected
+    const selectedIndices = Object.keys(rowSelection)
+      .filter((index) => rowSelection[index])
+      .map(Number);
+
+    // Get data from all sections
+    let dataToExport: any[] = [];
+
+    if (selectedIndices.length > 0) {
+      // Export only selected rows
+      sections.forEach((section) => {
+        const sectionSelectedData = selectedIndices
+          .map((index) => section.data[index])
+          .filter(Boolean); // Remove any undefined entries
+        dataToExport = [...dataToExport, ...sectionSelectedData];
+      });
+    } else {
+      // Export all data when nothing is selected
+      dataToExport = sections.flatMap((section) => section.data);
+    }
+
+    // Apply transformation if provided
+    if (transformExportData) {
+      dataToExport = transformExportData(dataToExport);
+    }
+
+    // Generate filename with date range
+    const dateRangeStr =
+      startDate && endDate
+        ? `_${format(startDate, 'yyyy-MM-dd')}_to_${format(endDate, 'yyyy-MM-dd')}`
+        : '';
+
+    const filename =
+      exportFileName ||
+      `${title.toLowerCase().replace(/\s+/g, '_')}${dateRangeStr}`;
+
+    // Export the data
+    exportTableData({
+      data: dataToExport,
+      filename,
+      sheetName: title,
+      format: 'xlsx',
+    });
+  };
 
   return (
     <Card className="w-full">
@@ -230,10 +283,12 @@ export default function ReportTemplate<T>({
           </div>
         </div>
       </CardHeader>
-
       <CardContent className="px-0 py-6 space-y-6">
         <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 md:items-center px-6">
-          <Button className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md">
+          <Button
+            className="w-full md:w-auto bg-[hsl(var(--gradient-purple-start))] hover:bg-[hsl(var(--gradient-purple-end))] text-destructive-foreground shadow-md"
+            onClick={handleExport}
+          >
             Export xlsx
           </Button>
           <input
@@ -244,7 +299,6 @@ export default function ReportTemplate<T>({
             className="w-full md:w-64 px-3 py-2 border border-border rounded-md bg-card"
           />
         </div>
-
         {validSections.map((section) => (
           <DataTable
             key={section.title}
@@ -258,6 +312,8 @@ export default function ReportTemplate<T>({
             setGlobalFilter={setGlobalFilter}
             pagination={pagination}
             setPagination={setPagination}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
           />
         ))}
       </CardContent>
